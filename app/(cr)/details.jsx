@@ -19,7 +19,7 @@ const HelpGuide = () => {
   const [showPDF, setShowPDF] = useState(false);
   const { t, i18n } = useTranslation();
   
-  // Get the PDF URL based on the selected language
+  
   const selectedLang = i18n.language || 'en';
   const pdfUrl = pdfUrls[selectedLang] || pdfUrls.en;
 

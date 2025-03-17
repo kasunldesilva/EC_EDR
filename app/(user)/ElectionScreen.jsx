@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     position: 'absolute', 
-    left: 16, // Adjust for proper spacing
+    left: 16,
     justifyContent: 'center',
   },
 });

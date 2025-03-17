@@ -88,10 +88,10 @@ const [tempDate, setTempDate] = useState(new Date());
       });
   
       const result = await response.json();
-      console.log("File Upload Response:", result); // <-- Add this log
+      console.log("File Upload Response:", result);
   
       if (response.ok) {
-        console.log("File uploaded at:", result.filePath); // <-- Check if this is valid
+        console.log("File uploaded at:", result.filePath); 
         return result.filePath;
       } else {
         throw new Error(result.message || "File upload failed");
@@ -167,7 +167,7 @@ const [tempDate, setTempDate] = useState(new Date());
 
     if (result.canceled) return;
     
-    setFile(result.assets[0].uri); // Fix: Ensure correct file selection
+    setFile(result.assets[0].uri); 
   };
 
   return (
@@ -207,7 +207,7 @@ const [tempDate, setTempDate] = useState(new Date());
             </Text>
           </TouchableOpacity>
 
-          {/* iOS & Android Date Picker */}
+         
           {showDatePicker && Platform.OS === "android" && (
             <DateTimePicker
               value={date}
@@ -217,7 +217,7 @@ const [tempDate, setTempDate] = useState(new Date());
             />
           )}
 
-          {/* iOS Date Picker Modal */}
+        
           <Modal isVisible={showDatePicker && Platform.OS === "ios"}>
             <View style={styles.modalContent}>
               <DateTimePicker
@@ -229,16 +229,16 @@ const [tempDate, setTempDate] = useState(new Date());
              <TouchableOpacity
                 style={[
                   styles.datePickerContainer,
-                  request.incident_date && styles.datePickerSelected, // Highlight when selected
+                  request.incident_date && styles.datePickerSelected, 
                 ]}
                 onPress={() => {
-                  setTempDate(date); // Store temporary date before confirming
+                  setTempDate(date);
                   setShowDatePicker(true);
                 }}
               >
                 <Ionicons name="calendar-outline" size={20} color={request.incident_date ? "#800080" : "gray"} />
                 <Text style={[styles.dateText, request.incident_date && styles.dateTextSelected]}>
-                  {request.incident_date ? request.incident_date : "Select Date"} {/* Hide previous details */}
+                  {request.incident_date ? request.incident_date : "Select Date"} 
                 </Text>
               </TouchableOpacity>
 
@@ -407,8 +407,8 @@ const styles = StyleSheet.create({
   },
   
   datePickerSelected: {
-    borderColor: "#800080", // Highlight when selected
-    backgroundColor: "#FCE4FF", // Light purple background
+    borderColor: "#800080", 
+    backgroundColor: "#FCE4FF", 
   },
   
   dateText: {
@@ -418,7 +418,7 @@ const styles = StyleSheet.create({
   },
   
   dateTextSelected: {
-    color: "#800080", // Dark purple text when selected
+    color: "#800080", 
     fontWeight: "bold",
   },
   

@@ -33,8 +33,8 @@ const SettingsScreen = () => {
 
   const handleLogout = async () => {
     try {
-      await AsyncStorage.removeItem("userToken"); // Clear stored session data
-      router.replace("/(login)/Selecter"); // Redirect to login page
+      await AsyncStorage.removeItem("userToken"); a
+      router.replace("/(login)/Selecter"); 
     } catch (error) {
       console.error("Logout failed:", error);
     }
@@ -42,7 +42,7 @@ const SettingsScreen = () => {
 
   return (
     <>
-      {/* Appbar Header */}
+      
       <Appbar.Header style={styles.appBar}>
             <Appbar.Content title="" />
             <View style={styles.titleContainer}>
@@ -52,7 +52,7 @@ const SettingsScreen = () => {
             <Appbar.Action icon="dots-vertical" onPress={() => {}} />
           </Appbar.Header>
 
-      {/* Settings List */}
+     
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <List.Section>
           <List.Subheader style={styles.subheader}>{t("General")}</List.Subheader>
@@ -88,7 +88,7 @@ const SettingsScreen = () => {
 
         <Divider style={styles.divider} />
 
-        {/* Logout Button */}
+      
         <View style={styles.logoutContainer}>
           <Button 
             mode="contained" 
@@ -100,7 +100,7 @@ const SettingsScreen = () => {
         </View>
       </ScrollView>
 
-      {/* Language Selection Dialog */}
+     
       <Portal>
         <Dialog visible={visible} onDismiss={hideDialog}>
           <Dialog.Title style={styles.dialogTitle}>{t("Select Language")}</Dialog.Title>
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     position: 'absolute', 
-    left: 16, // Adjust for proper spacing
+    left: 16,
     justifyContent: 'center',
   },
 });

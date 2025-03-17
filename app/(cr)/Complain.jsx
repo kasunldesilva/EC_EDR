@@ -108,7 +108,7 @@ const ComplaintScreen = () => {
       setSelectedDate(selectedDate);
       setFormData((prev) => ({
         ...prev,
-        date: selectedDate.toISOString().split("T")[0], // Ensuring correct date format
+        date: selectedDate.toISOString().split("T")[0], 
       }));
     }
   };
@@ -145,8 +145,8 @@ const ComplaintScreen = () => {
   const compressImage = async (uri) => {
     const result = await ImageManipulator.manipulateAsync(
       uri,
-      [{ resize: { width: 800 } }],  // Resize width to 800px (adjustable)
-      { compress: 0.7, format: ImageManipulator.SaveFormat.JPEG } // Compress to 70%
+      [{ resize: { width: 800 } }],  
+      { compress: 0.7, format: ImageManipulator.SaveFormat.JPEG } 
     );
     return result.uri;
   };
@@ -160,7 +160,7 @@ const ComplaintScreen = () => {
     const data = new FormData();
   
     for (let i = 0; i < images.length; i++) {
-      const compressedUri = await compressImage(images[i]); // Compress first
+      const compressedUri = await compressImage(images[i]); 
       const fileType = compressedUri.split(".").pop();
   
       data.append("EDRApp", {
@@ -180,7 +180,7 @@ const ComplaintScreen = () => {
         body: data,
       });
   
-      const textResponse = await response.text(); // Read response as text
+      const textResponse = await response.text();
       console.log("Full Response:", textResponse);
   
       try {
@@ -292,7 +292,7 @@ const ComplaintScreen = () => {
   const pickImages = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsMultipleSelection: true, // Allows multiple selections in gallery
+      allowsMultipleSelection: true, 
       quality: 1,
     });
   
@@ -315,7 +315,7 @@ const ComplaintScreen = () => {
     });
   
     if (!result.canceled) {
-      setImages((prev) => [...prev, result.assets[0].uri]); // Add camera image to list
+      setImages((prev) => [...prev, result.assets[0].uri]); 
     }
   };
   
@@ -686,7 +686,7 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     position: 'absolute', 
-    left: 16, // Adjust for proper spacing
+    left: 16, 
     justifyContent: 'center',
   },
   input: {
@@ -713,13 +713,13 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   selector: {
-    backgroundColor: "white", // White background for the dropdown
+    backgroundColor: "white", 
     borderRadius: 10,
     borderWidth: 1,
     borderColor: "#CCC",
   },
   selectStyle: {
-    backgroundColor: "#E0E0E0", // Light gray background for the selector
+    backgroundColor: "#E0E0E0", 
     padding: 10,
     borderRadius: 10,
     borderWidth: 1,
@@ -731,7 +731,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   optionContainerStyle: {
-    backgroundColor: "white", // White background for the dropdown list
+    backgroundColor: "white", 
     borderRadius: 10,
   },
   optionTextStyle: {

@@ -70,7 +70,7 @@ export default function FullDetailScreen() {
           },
         });
     
-        // if (!response.ok) throw new Error(`Failed to fetch status. Status: ${response.status}`);
+       
     
         const data = await response.json();
         console.log("✅ Status API Response:", data);
@@ -82,7 +82,7 @@ export default function FullDetailScreen() {
         }
       } catch (err) {
         console.error("❌ Status Fetch Error:", err);
-        // setError(err.message); // Display error message in UI
+        
       }
     };
     
@@ -128,18 +128,18 @@ export default function FullDetailScreen() {
       return <Text style={styles.noImageText}>{t("No images available")}</Text>;
     }
   
-    // Convert file_path array into valid URLs
+   
     const imagePathsArray = complaint.file_path[0]
       .split(',')
-      .map(path => path.trim()) // Remove unnecessary spaces
-      .filter(path => path.length > 0); // Remove empty values
+      .map(path => path.trim()) 
+      .filter(path => path.length > 0); 
   
     return (
       <View style={styles.imageContainer}>
         {imagePathsArray.map((path, index) => {
-          // Construct full image URL properly
+        
           let imageUrl = path.startsWith("http")
-            ? path // If it's a full URL, use it directly
+            ? path
             : `https://ecedr.elections.gov.lk/test${path.startsWith("/") ? path : `/images/${path}`}`;
   
           console.log(`✅ Checking Image URL: ${imageUrl}`);
@@ -150,7 +150,7 @@ export default function FullDetailScreen() {
               source={{ uri: imageUrl }}
               style={styles.image}
               resizeMode="cover"
-              onError={(e) => console.error(`❌ Failed to load image: ${imageUrl}`, e.nativeEvent.error)}
+              onError={(e) => console.error(` Failed to load image: ${imageUrl}`, e.nativeEvent.error)}
             />
           );
         })}

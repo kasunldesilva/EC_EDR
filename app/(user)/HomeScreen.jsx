@@ -42,7 +42,7 @@ export default function Dashboard() {
                     return;
                 }
       
-                // Fetch dashboard data
+               
                 const dashboardRes = await fetch(
                     "https://ecedr.elections.gov.lk/test/app_edritem/dashbordvalue",
                     {
@@ -69,7 +69,7 @@ export default function Dashboard() {
                     total_user_request: 0,
                 });
       
-                // Fetch latest complaints
+                
                 const complaintsRes = await fetch(
                     `https://ecedr.elections.gov.lk/test/app_edritem/latest?appUserId=${userId}`,
                     {
@@ -157,7 +157,7 @@ export default function Dashboard() {
                 </View>
                 
         <View style={styles.row}>
-            {/* Complaints Chart */}
+          
             <View style={styles.chartCard}>
                 <Text style={styles.chartTitle}>{t("All Complaints")}</Text>
                 <View style={styles.chartWrapper}>
@@ -170,7 +170,7 @@ export default function Dashboard() {
                 </View>
             </View>
 
-            {/* Requests Chart */}
+            
             <View style={styles.chartCard}>
                 <Text style={styles.chartTitle}>{t("All Requests")}</Text> 
                 <View style={styles.chartWrapper}>
@@ -299,7 +299,7 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     position: 'absolute', 
-    left: 16, // Adjust for proper spacing
+    left: 16, 
     justifyContent: 'center',
   },
     
