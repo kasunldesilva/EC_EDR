@@ -1,0 +1,17 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts"
+, "app/(login)/Home.jsx", "app/(login)/_layout.jsx", "app/(login)/Login.jsx", "app/(login)/Register.jsx", "app/(login)/ResendOTP.jsx", "app/(login)/Selecter.jsx", "app/(login)/test.jsx", "app/_layout.jsx", "app/index.jsx", "app/(user)/ComplainsScreen.jsx", "app/(user)/ElectionScreen.jsx", "app/(user)/HomeScreen.jsx", "app/(user)/Settings.jsx", "app/(user)/Massages.jsx", "app/(user)/_layout.jsx"  ]
+}
