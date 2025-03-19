@@ -741,17 +741,16 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   optionContainerStyle: {
-   // Centers the dropdown
-      // Aligns text inside dropdown
-    backgroundColor: "#FCE4FF",    // Optional: Background color
-    borderRadius: 10,           // Optional: Rounded corners
+  
+    backgroundColor: "#FCE4FF",    
+    borderRadius: 10,          
     padding: 10,
     marginTop:20
   },
   optionTextStyle: {
-    textAlign: "center",        // Centers text
-    fontSize: 16,               // Adjust font size
-    color: "#333",              // Text color
+    textAlign: "center",      
+    fontSize: 16,               
+    color: "#333",            
   },
   cancelStyle: {
     backgroundColor: "#94098A",
