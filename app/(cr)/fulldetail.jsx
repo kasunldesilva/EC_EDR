@@ -13,6 +13,8 @@ import { FontAwesome } from "@expo/vector-icons";
 import { Appbar } from "react-native-paper";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "expo-router";
+import { LinearGradient } from "expo-linear-gradient";
+import { MaterialIcons } from "@expo/vector-icons";
 
 export default function FullDetailScreen() {
   const { id } = useLocalSearchParams();
@@ -22,6 +24,8 @@ export default function FullDetailScreen() {
   const { t } = useTranslation();
     const router = useRouter();
     const [statusList, setStatusList] = useState([]);
+    const [statusItems, setStatusItems] = useState([]);
+
 
   const handleBack = () => {
     router.back(); 
@@ -90,37 +94,69 @@ export default function FullDetailScreen() {
     fetchComplaintDetails();
     fetchStatus();
   }, [id]);
-  const renderStatus = () => {
-    if (!complaint || !complaint.status) return null;
+  useEffect(() => {
+    const updateStatusItems = () => {
+      if (!complaint?.status) return;
+    
+      const rejectedComment = statusList[0]?.comment_org || "No comment";
+      const closeComment = statusList.find(item => item.item_level === "CLOSE")?.comment_org ?? t("No comment provided");
   
-    if (complaint.status === "REJECTED") {
-      const rejectedComment = statusList.length > 0 ? statusList[0].comment_org : "No comment";
-      return <Text style={styles.statusText}>{t("Rejected")}: {rejectedComment}</Text>;
-    }
+      let newStatusItems = [];
   
-    if (complaint.status === "ACTIVE") {
-      const itemLevel = statusList.length > 0 ? statusList[0].item_level : "";
-      if (itemLevel === "NEW") {
-        return <Text style={styles.statusText}>{t("Your complaint/request has been successfully received by the Election Commission, and it is now being processed for further action")}</Text>;
+      switch (complaint.status) {
+        case "REJECTED":
+          newStatusItems.push({
+            item_level: "REJECTED",
+            comment_org: rejectedComment,
+          });
+          break;
+  
+        case "ACTIVE":
+          newStatusItems.push({
+            item_level: "NEW",
+            comment_org: t("Your complaint/request has been successfully received by the Election Commission, and it is now being processed for further action"),
+          });
+          break;
+  
+        case "VERIFIED":
+          if (statusList.some(item => item.item_level === "CLOSE")) {
+            newStatusItems.push({
+              item_level: "CLOSED",
+              comment_org: closeComment,
+            });
+          }
+          if (statusList.some(item => item.item_level === "NEW")) {
+            newStatusItems.push({
+              item_level: "NEW",
+              comment_org: t("Your complaint/request has been successfully received by the Election Commission, and it is now being processed for further action"),
+            });
+          }
+          if (statusList.some(item => item.item_level === "POLICE_ASSIGN")) {
+            newStatusItems.push({
+              item_level: "POLICE ASSIGN",
+              comment_org: t("Your complaint has been forwarded to the Sri Lanka Police for necessary action."),
+            });
+          }
+          if (newStatusItems.length === 0) {
+            newStatusItems.push({
+              item_level: "VERIFIED",
+              comment_org: t("Passed Election Commission"),
+            });
+          }
+          break;
+  
+        default:
+          newStatusItems.push({
+            item_level: "UNKNOWN",
+            comment_org: t("Unknown Status"),
+          });
       }
-    }
   
-    if (complaint.status === "VERIFIED") {
-      const hasPoliceAssign = statusList.some(item => item.item_level === "POLICE_ASSIGN");
-      const hasClosed = statusList.some(item => item.item_level === "NEW");
-      const closeComment = statusList.find(item => item.item_level === "CLOSE")?.comment_org || "";
+      setStatusItems(newStatusItems);
+    };
   
-      if (hasClosed) {
-        return <Text style={styles.statusText}>{t("our complaint/request has been successfully received by the Election Commission, and it is now being processed for further action")}: {closeComment}</Text>;
-      }
-      if (hasPoliceAssign) {
-        return <Text style={styles.statusText}>{t("Your complaint has been forwarded to the Sri Lanka Police for necessary action.")}</Text>;
-      }
-      return <Text style={styles.statusText}>{t("Passed Election Commission")}</Text>;
-    }
-  
-    return <Text style={styles.statusText}>{t("Unknown Status")}</Text>;
-  };
+    updateStatusItems();
+  }, [complaint, statusList]);
   
   
   const renderImages = () => {
@@ -185,9 +221,16 @@ export default function FullDetailScreen() {
 
             {/* Complaint Box */}
             <View style={styles.complaintBox}>
-              <Text style={styles.complaintBadge}>
-                {complaint.item_type}
-              </Text>
+               <View style={styles.containers}>
+                          <LinearGradient
+                              colors={["#662483", "#c8057f"]}
+                               start={{ x: 0, y: 0 }}
+                               end={{ x: 1, y: 0 }}
+                               style={styles.badge}
+                              >
+                                <Text style={styles.badgeText}>{t(complaint?.item_type) || "No Type"}</Text>
+                            </LinearGradient>
+                    </View>
 
               <Text style={styles.complaintTitle}>
                 {t("Title of the Item")}
@@ -208,12 +251,12 @@ export default function FullDetailScreen() {
               <Text style={styles.itemTitle}>
                 {complaint.district}
               </Text>
-              <Text style={styles.complaintTitle}>
+              {/* <Text style={styles.complaintTitle}>
                 {t("Date and Time")}
-              </Text>
-              <Text style={styles.itemTitle}>
-                {complaint.title}
-              </Text>
+              </Text> */}
+              {/* <Text style={styles.itemTitle}>
+                {complaint.up}
+              </Text> */}
               <Text style={styles.complaintTitle}>
                 {t("status")}
               </Text>
@@ -225,11 +268,31 @@ export default function FullDetailScreen() {
             {/* Images */}
             {renderImages()}
 
-            {/* Status */}
+           
             
 
             <Text style={styles.complaintTitle}>{t("Status")}</Text>
-{             renderStatus()}
+           
+            <View style={styles.containers1}>
+              {statusItems.map((item, index) => (
+                <View key={index} style={styles.statusItem}>
+                
+                  <View style={styles.iconContainer}>
+                    <MaterialIcons name="check-circle" size={24} color="#A11EA3" />
+                    {index !== statusItems.length - 1 && <View style={styles.line} />}
+                  </View>
+
+                
+                  <View style={styles.statusBox}>
+                    <Text style={styles.statusTitle}>{item.item_level}</Text>
+                    <Text style={styles.statusDescription}>
+                      {item.comment_org}
+                    </Text>
+                  </View>
+                </View>
+              ))}
+            </View>
+
 
 
           </>
@@ -265,31 +328,39 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 10,
   },
-  complaintBadge: {
-    backgroundColor: "#9C2A8E",
-    color: "#FFF",
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 5,
-    alignSelf: "flex-start",
+  containers: {
+    alignItems: "flex-start", 
+    width: "100%",
+    
+  },badge: {
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    alignItems: "flex-start", 
+  },
+  badgeText: {
+    fontSize: 13,
     fontWeight: "bold",
-    fontSize: 12,
+    textAlign: "left", 
+    color: "white",
+    backgroundColor: "transparent",
   },
   complaintTitle: {
     fontSize: 16,
     fontWeight: "bold",
-    marginTop: 12,
+    marginTop: 2,
+    color:"#9C2A8E"
   },
   itemTitle: {
     fontSize: 14,
     color: "#6D28D9",
     fontWeight: "bold",
-    marginTop: 4,
+    marginTop: 1,
   },
   descriptionTitle: {
     fontSize: 14,
     fontWeight: "bold",
-    marginTop: 12,
+    marginTop: 5,
   },
   itemDescription: {
     color: "#555",
@@ -306,7 +377,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginRight: 8,
     marginBottom: 8,
-    backgroundColor: "#eee",
+    backgroundColor: "white",
   },
   noImageText: {
     marginTop: 16,
@@ -335,5 +406,39 @@ const styles = StyleSheet.create({
     color: "red",
     textAlign: "center",
     marginVertical: 16,
+  },
+  containers1: {
+    paddingVertical: 10,
+  },
+  statusItem: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    marginBottom: 20,
+  },
+  iconContainer: {
+    alignItems: "center",
+    marginRight: 10,
+  },
+  line: {
+    width: 2,
+    height: 40, 
+    backgroundColor: "#A11EA3",
+    marginTop: 2,
+  },
+  statusBox: {
+    backgroundColor: "#FAE5FF", 
+    padding: 12,
+    borderRadius: 8,
+    flex: 1,
+  },
+  statusTitle: {
+    fontWeight: "bold",
+    color: "#A11EA3",
+    fontSize: 16,
+    marginBottom: 4,
+  },
+  statusDescription: {
+    color: "#6A1B9A",
+    fontSize: 14,
   },
 });

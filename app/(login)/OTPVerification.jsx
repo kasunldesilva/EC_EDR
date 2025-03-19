@@ -246,10 +246,12 @@ const styles = StyleSheet.create({
   },
 
   background: {
-    width,
-    height,
-    justifyContent: "center",
+    flex: 1,  // Allows the image to take the full screen
+    width: "100%", 
+    height: "100%", 
     alignItems: "center",
+    justifyContent: "center",
+    resizeMode: "cover", 
   },
 
   headerText: {
@@ -369,7 +371,8 @@ const styles = StyleSheet.create({
 
   modalContainer: {
     width: "85%",
-    backgroundColor: "#FCE4FF",
+    backgroundColor: "#f9edfa",
+   
     borderRadius: 20,
     padding: 20,
     alignItems: "center",

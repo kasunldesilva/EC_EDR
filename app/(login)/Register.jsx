@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import {
   View,
@@ -15,11 +15,13 @@ import {
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
+import * as Device from "expo-device";
 
 const { width, height } = Dimensions.get("window");
 
 export default function Register() {
   const router = useRouter();
+  const { t } = useTranslation();
   const [form, setForm] = useState({
     username: "",
     mobile: "",
@@ -27,22 +29,49 @@ export default function Register() {
     password: "",
     confirmPassword: "",
   });
-  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [password, setPassword] = useState("");
+  const [deviceId, setDeviceId] = useState("");
   const [showConsentModal, setShowConsentModal] = useState(false);
 
- 
+
+  // Get Device ID
+  useEffect(() => {
+    async function fetchDeviceId() {
+      const id = Device.modelId || Device.osBuildId || "Unknown";
+      setDeviceId(id);
+    }
+    fetchDeviceId();
+  }, []);
+
+  // Strong password validation function
+  const isValidPassword = (password) => {
+    if (!password) return false; // Prevents null or undefined errors
+    return /^(?=.*[a-zA-Z])(?=.*\d).{6,}$/.test(password);
+  };
+  
+
 
   const handleRegister = async () => {
     setLoading(true);
     setErrorMessage("");
-  
-    console.log("Registering with:", form); 
-  
+
+    if (!isValidPassword(form.password)) {
+      setErrorMessage(
+        "Password must be at least 8 characters long, contain an uppercase letter, a number, and a special character."
+      );
+      setLoading(false);
+      return;
+    }
+
+    if (form.password !== form.confirmPassword) {
+      setErrorMessage("Passwords do not match.");
+      setLoading(false);
+      return;
+    }
+
     try {
       const response = await axios.post(
         "https://ecedr.elections.gov.lk/test/app_user/",
@@ -51,27 +80,23 @@ export default function Register() {
           nic: form.nic,
           mobile: form.mobile,
           password: form.password,
-          confirm_password: form.confirmPassword, 
+          confirm_password: form.confirmPassword,
+          device_id: deviceId,
         },
         {
           headers: { "Content-Type": "application/json" },
         }
       );
-  
-      console.log("Response Data:", response.data); 
-  
-     
+
       router.push({
         pathname: "/OTPVerification",
         params: { mobile: form.mobile },
-      
       });
-  
+
     } catch (error) {
       setLoading(false);
       if (error.response) {
-        console.log("API Error Response:", error.response.data); 
-        setErrorMessage(error.response.data.message || "");
+        setErrorMessage(error.response.data.message || "Registration failed.");
       } else {
         setErrorMessage("An error occurred, please try again.");
       }
@@ -104,14 +129,14 @@ export default function Register() {
 
             <Text style={styles.title}>EC-EDR</Text>
 
-            {/* Second Logo */}
+           
             <Image
               source={require("../../assets/images/logo.png")}
               style={styles.smallLogo}
               resizeMode="contain"
             />
 
-            {/* Input Fields */}
+          
             <View style={styles.inputContainer}>
               <Ionicons name="person-outline" size={20} color="#94098A" />
               <TextInput
@@ -203,7 +228,7 @@ export default function Register() {
           <View style={styles.modalOverlay}>
             <View style={styles.modalContainer}>
               <View style={styles.iconContainer}>
-                <Ionicons name="shield-checkmark" size={48} Color="#fff" />
+                <Ionicons name="checkmark-done-circle-outline" size={60} color="#94098A" />
               </View>
 
               <Text style={styles.modalTitle}>{t("Consent Statement")}</Text>
@@ -353,7 +378,7 @@ const styles = StyleSheet.create({
   
   modalContainer: {
     width: "85%",
-    backgroundColor: "#FCE4FF",
+    backgroundColor: "#f9edfa",
     borderRadius: 20,
     padding: 20,
     alignItems: "center",

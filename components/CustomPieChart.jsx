@@ -13,11 +13,11 @@ const CustomPieChart = ({ data ,totalCount}) => {
     <PieChart
       data={data}
       width={screenWidth}
-      height={150}
+      height={120}
       chartConfig={{ color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})` }}
       accessor="population"
       backgroundColor="transparent"
-      paddingLeft="100"
+      paddingLeft="90"
       hasLegend={false} // 🔥 Remove details section (legend)
     />
 

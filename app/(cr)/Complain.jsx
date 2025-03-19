@@ -51,6 +51,7 @@ const ComplaintScreen = () => {
   const [selectedTime, setSelectedTime] = useState(new Date());
   
   
+  
   const [formData, setFormData] = useState({
     location: "",
     village: "",
@@ -80,7 +81,7 @@ const ComplaintScreen = () => {
     { label: t("Kalutara"), value: "3" },
     { label: t("Kandy"), value: "4" },
     { label: t("Matale"), value: "5" },
-    { label: t("NuwaraEliya"), value: "6" },
+    { label: t("Nuwara Eliya"), value: "6" },
     { label: t("Galle"), value: "7" },
     { label: t("Matara"), value: "8" },
     { label: t("Hambantota"), value: "9" },
@@ -88,12 +89,12 @@ const ComplaintScreen = () => {
     { label: t("Kilinochchi"), value: "11" },
     { label: t("Mannar"), value: "12" },
     { label: t("Vavuniya"), value: "13" },
-    { label: t("Mulativue"), value: "14" },
+    { label: t("Mullaitivu"), value: "14" },
     { label: t("Batticaloa"), value: "15" },
     { label: t("Ampara"), value: "16" },
     { label: t("Trincomalee"), value: "17" },
     { label: t("Kurunegala"), value: "18" },
-    { label: t("Putttalam"), value: "19" },
+    { label: t("Puttalam"), value: "19" },
     { label: t("Anuradhapura"), value: "20" },
     { label: t("Polonnaruwa"), value: "21" },
     { label: t("Badulla"), value: "22" },
@@ -407,7 +408,7 @@ const ComplaintScreen = () => {
 
               <PaperTextInput
                 mode="outlined"
-                label={t("Village")}
+                label={t("Village of the incident")}
                 onChangeText={(text) =>
                   setFormData({ ...formData, village: text })
                 }
@@ -417,20 +418,21 @@ const ComplaintScreen = () => {
               <View style={styles.container1}>
                 <Text style={styles.label}>{t("Select District")}</Text>
                 <View style={styles.inputs}>
-                  <ModalSelector
+                <ModalSelector
                     data={sriLankaDistricts}
                     keyExtractor={(item) => String(item.value)}
                     labelExtractor={(item) => item.label}
                     initValue={t("Select District")}
-                    onChange={(option) =>
-                      setFormData({ ...formData, district: option.value })
-                    }
-                    style={styles.selector}
-                    selectStyle={styles.selectStyle}
-                    selectTextStyle={styles.selectTextStyle}
-                    optionContainerStyle={styles.optionContainerStyle}
-                    optionTextStyle={styles.optionTextStyle}
+                    onChange={(option) => setFormData({ ...formData, district: option.value })}
+                    style={styles.selector} 
+                    selectStyle={styles.selectStyle} 
+                    selectTextStyle={styles.selectTextStyle} 
+                    optionContainerStyle={styles.optionContainerStyle} 
+                    optionTextStyle={styles.optionTextStyle} 
+                    cancelStyle={styles.cancelStyle} 
+                    cancelTextStyle={styles.cancelTextStyle} 
                   />
+
                 </View>
               </View>
 
@@ -462,16 +464,16 @@ const ComplaintScreen = () => {
                   style={styles.input}
                 />
                 {showDatePicker && (
-                  <View style={styles.datePickerWrapper}>
-                  <View style={styles.datePickerContainer}>
-                    <DateTimePicker
-                      mode="date"
-                      value={formData.date ? new Date(formData.date) : new Date()}
-                      display={Platform.OS === "ios" ? "inline" : "default"}
-                      onChange={handleDateChange}
-                    />
+                  <View style={[styles.datePickerWrapper, { top: 100 }]}>
+                    <View style={styles.datePickerContainer}>
+                      <DateTimePicker
+                        mode="date"
+                        value={formData.date ? new Date(formData.date) : new Date()}
+                        display={Platform.OS === "ios" ? "inline" : "default"}
+                        onChange={handleDateChange}
+                      />
+                    </View>
                   </View>
-                </View>
                 )}
 
                 {/* Time Picker Input */}
@@ -484,14 +486,16 @@ const ComplaintScreen = () => {
                   style={styles.input}
                 />
                 {showTimePicker && (
-                  <View style={styles.datePickerContainer}>
-                      <DateTimePicker
-                        mode="time"
-                        value={selectedTime}
-                        display={Platform.OS === "ios" ? "spinner" : "default"}
-                        onChange={handleTimeChange}
-                      />
-                    </View>
+                  <View style={[styles.datePickerWrapper, { top: 100 }]}>
+                    <View style={styles.datePickerContainer}>
+                        <DateTimePicker
+                          mode="time"
+                          value={selectedTime}
+                          display={Platform.OS === "ios" ? "spinner" : "default"}
+                          onChange={handleTimeChange}
+                        />
+                      </View>
+                      </View>
                 )}
               <TouchableOpacity
                style={styles.submit}
@@ -530,7 +534,7 @@ const ComplaintScreen = () => {
                            incident_date: "",
                        });
                       setFile(null);
-                       router.replace("/(user)/Settings"); 
+                       router.replace("/(user)/HomeScreen"); 
                       }}
                    >
                       <Text style={styles.agreeButtonText}>{t("okay")}</Text>
@@ -592,7 +596,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginTop: 0,
   },
-  uploadBtnText: { color: "#fff", fontWeight: "bold" },
+  uploadBtnText: { color: "white", fontWeight: "bold" },
   skipText: {
     textAlign: "center",
     color: "#a3158a",
@@ -693,14 +697,14 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 10,
     fontSize: 16,
-    color: "#333",
+    color: "white",
     marginBottom:10
   },
   container1: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "white", // Light background
+    backgroundColor: "white", 
     
   },
   label: {
@@ -737,6 +741,12 @@ const styles = StyleSheet.create({
   optionTextStyle: {
     color: "#000",
     fontSize: 16,
+  },datePickerWrapper: {
+    position: "absolute",
+    left: 10,
+    right: 10,
+    zIndex: 0, 
+    backgroundColor:"white"// Ensure it's above other elements
   },
   
   

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useCallback  } from "react";
 import { useTranslation } from "react-i18next";
-import { View, Text, StyleSheet, ScrollView, ActivityIndicator, TouchableOpacity, FlatList } from "react-native";
-import { useRouter } from "expo-router";
+import { View, Text, StyleSheet,RefreshControl, ScrollView, ActivityIndicator, TouchableOpacity, FlatList } from "react-native";
+import { useRouter,  useFocusEffect  } from "expo-router";
 import CustomPieChart from '../../components/CustomPieChart';
 import { Svg, Circle, Text as SvgText } from "react-native-svg";
-import MaskedView from "@react-native-masked-view/masked-view";
+
 
 
 
@@ -21,11 +21,36 @@ export default function Dashboard() {
     const router = useRouter();
     const [complaints, setComplaints] = useState([]);
     const [dashboardData, setDashboardData] = useState({});
+    const [refreshing, setRefreshing] = useState(false);
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [userName, setUserName] = useState("No"); 
     const { t } = useTranslation();
+    const [data, setData] = useState(null);
+    const fetchDashboardData = async () => {
+        setRefreshing(true);
+        try {
+         
+          await new Promise((resolve) => setTimeout(resolve, 1500));
+          setData("New Dashboard Data Loaded");
+        } catch (error) {
+          console.error("Error fetching dashboard data:", error);
+        }
+        setRefreshing(false);
+      };
+    
+     
+      const onRefresh = async () => {
+        await fetchDashboardData();
+      };
+    
+      
+      useFocusEffect(
+        useCallback(() => {
+          fetchDashboardData(); 
+        }, [])
+      );
 
     useEffect(() => {
         const fetchDashboardData = async () => {
@@ -105,17 +130,19 @@ export default function Dashboard() {
     if (loading) return <ActivityIndicator size="large" color="#9B287B" />;
     if (error) return <Text style={styles.errorText}>{error}</Text>;
 
-    
+   
     
     const domainData = [
-        { name: 'Tech', population: 40, color: '#3498db' },
-        { name: 'Health', population: 35, color: '#2ecc71' },
-        { name: 'Finance', population: 25, color: '#e74c3c' },
+        { name: 'Tech', population: 20, color: '#64064C' },
+        { name: 'Health', population: 30, color: '#94098A' },
+        { name: 'Finance', population: 25, color: '#AB1CA2' },
+        { name: 'com', population: 25, color: '#F66CC9' },
       ]; 
       const domainData1 = [
-        { name: 'Tech', population: 40, color: '#3498db' },
-        { name: 'Health', population: 35, color: '#2ecc71' },
-        { name: 'Finance', population: 25, color: '#e74c3c' },
+        { name: 'Tech', population: 30, color: '#64064C' },
+        { name: 'Health', population: 20, color: '#94098A' },
+        { name: 'Finance', population: 10, color: '#AB1CA2' },
+        { name: 'com', population: 40, color: '#F66CC9' },
       ]; 
     
    
@@ -130,7 +157,7 @@ export default function Dashboard() {
                   <Appbar.Action icon="dots-vertical" onPress={() => {}} />
                 </Appbar.Header>
 
-            <ScrollView style={styles.container}>
+            <ScrollView style={styles.container}   refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
                 <View style={styles.header}>
                     <Text style={styles.title}>{t("Local Authorities Election")}- 2025</Text>
                 </View>
@@ -148,7 +175,7 @@ export default function Dashboard() {
                               end={{ x: 1, y: 0 }}
                               style={styles.gradientButton}
                             >
-                              <Icon name="add-circle-outline" size={20} color="#fff" />
+                              <Icon name="add-circle-outline" size={20} color="white" />
                               <Text style={styles.gradientButtonText}>{t("Add Complaint or Request")}</Text>
                             </LinearGradient>
                           </TouchableOpacity>
@@ -161,7 +188,12 @@ export default function Dashboard() {
             <View style={styles.chartCard}>
                 <Text style={styles.chartTitle}>{t("All Complaints")}</Text>
                 <View style={styles.chartWrapper}>
-                <CustomPieChart data={domainData1} totalCount={dashboardData.total_all_complain} />
+                <CustomPieChart 
+                    data={domainData1} 
+                    totalCount={dashboardData.total_user_complain ||0} 
+                    style={{ width: 150, height: 150 }}  
+                    />
+
 
                
                 
@@ -174,7 +206,12 @@ export default function Dashboard() {
             <View style={styles.chartCard}>
                 <Text style={styles.chartTitle}>{t("All Requests")}</Text> 
                 <View style={styles.chartWrapper}>
-                <CustomPieChart data={domainData1} totalCount={dashboardData.total_all_request} />
+                    <CustomPieChart 
+                    data={domainData1} 
+                    totalCount={dashboardData.total_user_request||0} 
+                    style={{ width: 150, height: 150 }}  
+                    />
+
                 
             
                     
@@ -187,27 +224,25 @@ export default function Dashboard() {
                     <ScrollView >
                         {complaints.map((item) => (
                             <View style={styles.cards} key={item.id}>
-                               <MaskedView
-                                            maskElement={<Text style={styles.badge}>{item?.item_type || "No Type"}</Text>}
-                                        >
-                                        <LinearGradient
-                                            colors={["#662481", "#c8057f"]}
-                                            start={{ x: 0, y: 0 }}
-                                            end={{ x: 1, y: 0 }}
-                                            style={styles.gradient}
-                                        >
-                                            <Text style={[styles.badge, { opacity: 1 }]}>{item?.item_type || "No Type"}</Text>
-                                        </LinearGradient>
-                                </MaskedView>
-                             
+                                <View style={styles.containers}>
+                                    <LinearGradient
+                                        colors={["#662483", "#c8057f"]}
+                                        start={{ x: 0, y: 0 }}
+                                        end={{ x: 1, y: 0 }}
+                                        style={styles.badge}
+                                    >
+                                        <Text style={styles.badgeText}>{t(item?.item_type) || "No Type"}</Text>
+                                    </LinearGradient>
+                                    </View>
+                                                            
 
                                 <View style={styles.row}>
                                     <View style={styles.details}>
                                         <Text style={styles.boldText}>{t("Reference Number")}:</Text>
                                         <Text style={styles.text}>EDRAPPLAE{item?.id || "N/A"}</Text>
-                                        <Text style={styles.boldText}>{t("Title")}:  <Text style={styles.boldTexts}>{item?.title || "No Title"}</Text></Text>
+                                        <Text style={styles.boldText}>{t("Title")}:  <Text style={styles.text}>{item?.title || "No Title"}</Text></Text>
                                        
-                                        <Text style={styles.boldText}>{t("Status")}:  <Text style={styles.boldTexts}>{item?.status || "No Status"}</Text></Text>
+                                        <Text style={styles.boldText}>{t("Status")}:  <Text style={styles.boldText}>{item?.status || "No Status"}</Text></Text>
                                         
                                     </View>
                                     <TouchableOpacity
@@ -235,25 +270,42 @@ const styles = StyleSheet.create({
     title: { fontSize: 18, color: '#94098A' },
     welcome: { fontSize: 14, color: '#94098A', marginBottom: 10 },
    
-    card: { backgroundColor: '#fff0f9', padding: 20, borderRadius: 10,  marginBottom: 20 ,alignItems:"center"},
-    cards: { backgroundColor: '#fff0f9', padding: 8, borderRadius: 10,  marginBottom: 50 ,},
+   
+    cards: { backgroundColor: '#fff0f9', padding: 10, borderRadius: 10,  marginBottom: 50 ,},
     
     iconRow: { flexDirection: 'row', gap: 20 },
     row: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 },
     chartCard: { backgroundColor: '#fff0f9', padding: 20, borderRadius: 10, alignItems: 'center', width: '48%' },
-    chartTitle: { fontSize: 14, fontWeight: 'bold', color: '#9B287B', marginBottom: 10 },
+    chartTitle: { fontSize: 14, fontWeight: 'bold', color: '#9B287B', marginBottom: 6 },
     chart: { height: 100, width: 100 },
     chartCount: { fontSize: 16, fontWeight: 'bold', color: '#9B287B',paddingBottom:-30 },
     sectionTitle: { fontSize: 14, fontWeight: 'bold', color: '#9B287B', marginBottom: 10 },
     noData: { fontSize: 14, color: "#9B287B", textAlign: "center", marginTop: 10 },
     errorText: { color: 'red', textAlign: 'center' },
-    badge: { backgroundColor: '#800080', paddingVertical: 6, paddingHorizontal: 5, borderRadius: 8, color: '#fff', marginBottom: 10,width:100 },
+    containers: {
+        alignItems: "flex-start", 
+        width: "100%",
+        
+      },
+      badge: {
+        paddingVertical: 6,
+        paddingHorizontal: 12,
+        borderRadius: 8,
+        alignItems: "flex-start", 
+      },
+      badgeText: {
+        fontSize: 13,
+        fontWeight: "bold",
+        textAlign: "left", 
+        color: "white",
+        backgroundColor: "transparent",
+      },
     details: { flex: 1 },
-    boldText: { fontWeight: 'bold'},
-    boldTexts: {color:"#94098A"},
+    boldText: { fontWeight: 'bold',color:"#63075D",fontSize: 14,paddingTop:5},
+   
     text: { fontSize: 14 ,color:"#9B287B"},
     button: { backgroundColor: '#63075D', paddingLeft: 15,paddingRight:20, borderRadius: 10, justifyContent: 'center', alignItems: 'center',marginTop:10,marginBottom:30 },
-    buttonText: { color: '#fff' },
+    buttonText: { color: 'white' },
     buttonContainer: {
         width: "100%",
         alignItems: "center",
@@ -279,12 +331,11 @@ const styles = StyleSheet.create({
         marginLeft: 10
       },
       chartWrapper: {
-        position: "relative",
-        width: 100,
-        height: 100,
+        flex: 1,
         alignItems: "center",
         justifyContent: "center",
-    },
+    }
+    ,
     chartOverlay: {
         position: "absolute",
         top: 0,

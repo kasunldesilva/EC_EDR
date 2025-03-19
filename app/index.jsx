@@ -1,111 +1,106 @@
-import React, { useState } from "react";
+import React ,{useEffect} from "react";
 import {
   View,
-  ImageBackground,
-  StyleSheet,
   SafeAreaView,
   ScrollView,
   Image,
   Text,
-  Dimensions,
   TouchableOpacity,
+  useWindowDimensions,
 } from "react-native";
-import { Redirect, useRouter } from "expo-router"; 
+import { useRouter } from "expo-router";
+import BackgroundSvg from "../assets/images/background.svg"; 
 
-const { width, height } = Dimensions.get("window");
+export default function Index() {
+  const router = useRouter();
+  const { width, height } = useWindowDimensions();
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      router.push("/Selecter"); 
+    }, 1000); 
 
-export default function index() {
-  const router = useRouter(); 
+    return () => clearTimeout(timer); 
+  }, []);
+
 
   return (
-     
     <SafeAreaView style={styles.safeArea}>
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <ImageBackground
-          source={require("../assets/images/background.png")}
-          style={styles.background}
-          resizeMode="cover"
-        >
-          <View style={styles.container}>
-            
+      <View style={{ flex: 1 }}>
+       
+        <View style={styles.background}>
+          <BackgroundSvg width="100%" height="100%" preserveAspectRatio="xMidYMid slice" />
+        </View>
+
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          <View style={[styles.container, { marginTop: height * 0.04 }]}>
             <TouchableOpacity onPress={() => router.push("/(login)/Selecter")}>
               <Image
                 source={require("../assets/images/national.png")}
-                style={styles.logo}
+                style={[styles.logo, { width: width * 0.7 }]}
                 resizeMode="contain"
               />
             </TouchableOpacity>
 
-            <Text style={styles.text}>EC-EDR</Text>
+            <Text style={[styles.text, { fontSize: width * 0.08 }]}>EC-EDR</Text>
 
-            
             <TouchableOpacity onPress={() => router.push("/(login)/Selecter")}>
               <Image
                 source={require("../assets/images/logo.png")}
-                style={styles.logo}
+                style={[styles.logo, { width: width * 0.7 }]}
                 resizeMode="contain"
               />
             </TouchableOpacity>
 
-           
-            <TouchableOpacity
-              onPress={() => router.push("/(login)/Selecter")}
-            >
+            <TouchableOpacity onPress={() => router.push("/(login)/Selecter")}>
               <Image
-                source={require("../assets/images/splash image.png")} 
-                style={styles.interactiveImage}
+                source={require("../assets/images/splash image.png")}
+                style={[styles.interactiveImage, { width: width * 0.8 }]}
                 resizeMode="contain"
               />
             </TouchableOpacity>
-
-            
           </View>
-        </ImageBackground>
-      </ScrollView>
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
+const styles = {
   safeArea: {
     flex: 1,
-    backgroundColor: "#fff",
+    
   },
+    background: {
+    position: "absolute",
+    top: 0,
+    left: -50,  
+    right: 0,
+    bottom: 0,
+    width: "120%",  
+    height: "100%",
+  },
+
   scrollContainer: {
     flexGrow: 1,
-  },
-  background: {
-    width: width,
-    height: height,
-    justifyContent: "center",
-    alignItems: "center",
+    marginTop: 30,
   },
   container: {
     justifyContent: "center",
     alignItems: "center",
-    margin: 0,
-    padding: 0,
   },
   logo: {
-    width: width * 0.7, 
-    height: width * 0.4, 
-    marginVertical: -3, 
+    height: undefined,
+    aspectRatio: 2,
+    marginVertical: 0,
   },
   interactiveImage: {
-    width: width * 0.8, 
-    height: width * 0.5, 
-    marginVertical: 20, 
+    height: undefined,
+    aspectRatio: 1.6,
+    marginVertical: 20,
   },
   text: {
-    fontSize: 30, 
     fontWeight: "bold",
     color: "#2E073F",
-    marginBlockStart: 0, 
-  },
-  feedbackText: {
-    fontSize: 18,
-    color: "#FF0000",
-    marginTop: 20,
     textAlign: "center",
   },
-});
+};

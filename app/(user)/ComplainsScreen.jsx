@@ -4,6 +4,7 @@ import {
   View, Text, FlatList, TouchableOpacity, StyleSheet, 
   SafeAreaView, ActivityIndicator, Alert 
 } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { Appbar } from "react-native-paper";
 import * as SecureStore from "expo-secure-store";
@@ -97,32 +98,42 @@ export default function ComplaintsList() {
             <Text style={styles.noData}>{t("No Complaints and Requests")}</Text>
           ) : (
             <FlatList
-              data={complaints}
-              keyExtractor={(item) => item.id.toString()}
-              showsVerticalScrollIndicator={false}
-              contentContainerStyle={{ paddingBottom: 20 }}
-              renderItem={({ item }) => (
-                <View style={styles.card}>
-                  <Text style={styles.badge}>{item.item_type}</Text>
-                  <View style={styles.row}>
-                    <View style={styles.details}>
-                      <Text style={styles.boldText}>{t("Reference Number")}:</Text>
-                      <Text style={styles.text}>EDRAPPLAE{item.id}</Text>
-                      <Text style={styles.boldText}>{t("Title")}:</Text>
-                      <Text style={styles.text}>{item.title}</Text>
-                      <Text style={styles.boldText}>{t("Status")}:</Text>
-                      <Text style={styles.text}>{item.status}</Text>
+            data={complaints}
+            keyExtractor={(item) => item.id.toString()}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ paddingBottom: 20 }}
+            renderItem={({ item }) => (
+              <View style={styles.card}>
+                  <View style={styles.containers}>
+                          <LinearGradient
+                              colors={["#662483", "#c8057f"]}// Purple to Blue gradient
+                               start={{ x: 0, y: 0 }}
+                               end={{ x: 1, y: 0 }}
+                               style={styles.badge}
+                              >
+                                <Text style={styles.badgeText}>{t(item?.item_type) || "No Type"}</Text>
+                            </LinearGradient>
                     </View>
-                    <TouchableOpacity
-                      style={styles.button}
-                      onPress={() => router.push({ pathname: "/(cr)/fulldetail", params: { id: item.id } })}
-                    >
-                      <Text style={styles.buttonText}>{t("Details")}</Text>
-                    </TouchableOpacity>
+          
+                <View style={styles.row}>
+                  <View style={styles.details}>
+                    <Text style={styles.boldText}>{t("Reference Number")}:</Text>
+                    <Text style={styles.text}>EDRAPPLAE{item.id}</Text>
+                    <Text style={styles.boldText}>{t("Title")}:</Text>
+                    <Text style={styles.text}>{item.title}</Text>
+                    <Text style={styles.boldText}>{t("Status")}:</Text>
+                    <Text style={styles.texts}>{item.status}</Text>
                   </View>
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => router.push({ pathname: "/(cr)/fulldetail", params: { id: item.id } })}
+                  >
+                    <Text style={styles.buttonText}>{t("Details")}</Text>
+                  </TouchableOpacity>
                 </View>
-              )}
-            />
+              </View>
+            )}
+          />
           )}
 
       </View>
@@ -141,15 +152,7 @@ const styles = StyleSheet.create({
     borderRadius: 10, 
     marginBottom: 10, 
   },
-  badge: { 
-    backgroundColor: "#9C2A8E", 
-    color: "#fff", 
-    paddingVertical: 3, 
-    paddingHorizontal: 10, 
-    borderRadius: 5, 
-    alignSelf: "flex-start",
-    fontSize: 12,
-  },
+  
   row: {
     flexDirection: "row", 
     justifyContent: "space-between", 
@@ -158,6 +161,7 @@ const styles = StyleSheet.create({
   details: { flex: 1, paddingRight: 10 },
   boldText: { fontWeight: "bold", color: "#5C136B", marginTop: 2, fontSize: 14 },
   text: { color: "#5C136B", fontSize: 14 },
+  texts: { color: "#6D28D9", fontSize: 14 },
   button: { 
     backgroundColor: "#9C2A8E", 
     paddingVertical: 6, 
@@ -174,5 +178,22 @@ const styles = StyleSheet.create({
     position: 'absolute', 
     left: 16, 
     justifyContent: 'center',
+  },
+  containers: {
+    alignItems: "flex-start", 
+    width: "100%",
+    
+  },badge: {
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    alignItems: "flex-start", 
+  },
+  badgeText: {
+    fontSize: 13,
+    fontWeight: "bold",
+    textAlign: "left", 
+    color: "white",
+    backgroundColor: "transparent",
   },
 });

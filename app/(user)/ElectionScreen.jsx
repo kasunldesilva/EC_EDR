@@ -59,7 +59,7 @@ const ElectionScreen = () => {
     </Appbar.Header>
 
       <SafeAreaView style={styles.container}>
-        <StatusBar barStyle="dark-content" backgroundColor="#fff" />
+        <StatusBar barStyle="dark-content" backgroundColor="white" />
         <Text style={styles.title}>{t("Local Authorities Election")} - 2025</Text>
 
         <View style={styles.buttonContainer}>
@@ -73,7 +73,7 @@ const ElectionScreen = () => {
               end={{ x: 1, y: 0 }}
               style={styles.gradientButton}
             >
-              <Icon name="add-circle-outline" size={20} color="#fff" />
+              <Icon name="add-circle-outline" size={20} color="white" />
               <Text style={styles.gradientButtonText}>{t("Complain")}</Text>
             </LinearGradient>
           </TouchableOpacity>
@@ -88,7 +88,7 @@ const ElectionScreen = () => {
               end={{ x: 1, y: 0 }}
               style={styles.gradientButton}
             >
-              <Icon name="add-circle-outline" size={20} color="#fff" />
+              <Icon name="add-circle-outline" size={20} color="white" />
               <Text style={styles.gradientButtonText}>{t("Request")}</Text>
             </LinearGradient>
           </TouchableOpacity>
@@ -107,7 +107,7 @@ const ElectionScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "white",
     paddingTop: 10
   },
   title: {
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10
   },
   gradientButtonText: {
-    color: "#fff",
+    color: "white",
     fontSize: 18,
     fontWeight: "bold",
     marginLeft: 10
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     lineHeight: 20
   },
   appBar: {
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
   },
   titleContainer: {
     position: 'absolute', 

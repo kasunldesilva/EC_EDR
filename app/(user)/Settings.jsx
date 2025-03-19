@@ -135,10 +135,10 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   appbar: {
-    backgroundColor: "#fff",
+    backgroundColor: "white",
   },
   appbarTitle: {
-    color: "#FFFFFF",
+    color: "white",
     fontWeight: "bold",
   },
   subheader: {
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   appBar: {
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
   },
   titleContainer: {
     position: 'absolute', 

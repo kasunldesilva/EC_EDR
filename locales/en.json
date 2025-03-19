@@ -153,9 +153,12 @@
     "add_complaint": {
       "title": "How to Add New Complaint",
       "login": "- Log in to your account",
-      "home_tap": "- Tap 'Add Complaint or Request'",
-      "fill_details": "- Fill in the complaint details",
-      "submit": "- Submit the form and get a reference number."
+      "home_tap": "- On the home screen, tap on Add Complaint or Request tab",
+      "fill_details": "- Navigate to the Complaints section",
+      "submit": "- Get photos/videos or you can skip..",
+      "submits": "- Fill in the complaint details (e.g., title, description).",
+      "submits1": "- Submit the form. You will receive a reference number for tracking."
+      
     },
     "add_request": {
       "title": "How to Add a New Request",

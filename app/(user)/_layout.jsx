@@ -14,7 +14,7 @@ export default function _layout() {
           tabBarShowLabel: false,
         }}
       >
-        <Tabs.Screen
+         <Tabs.Screen
           name="ElectionScreen"
           options={{
             tabBarIcon: ({ focused }) => (
@@ -36,6 +36,7 @@ export default function _layout() {
             ),
           }}
         />
+       
         <Tabs.Screen
           name="ComplainsScreen"
           options={{

@@ -81,11 +81,15 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   background: {
-    width: width,
-    height: height,
-   
+    flex: 1,  // Allows the image to take the full screen
+    width: "100%", 
+    height: "100%", 
     alignItems: "center",
+    
+    resizeMode: "cover", 
   },
+  
+  
   container: {
     justifyContent: "center",
     alignItems: "center",

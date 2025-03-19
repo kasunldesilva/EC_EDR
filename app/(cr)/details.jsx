@@ -26,7 +26,7 @@ const HelpGuide = () => {
   const steps = [
     { 
       title: t('add_complaint.title'), 
-      details: `${t('add_complaint.login')}\n${t('add_complaint.home_tap')}\n${t('add_complaint.fill_details')}\n${t('add_complaint.submit')}`
+      details: `${t('add_complaint.login')}\n${t('add_complaint.home_tap')}\n${t('add_complaint.fill_details')}\n${t('add_complaint.submit')}\n${t('add_complaint.submits')}\n${t('add_complaint.submits1')}`
     },
     { 
       title: t('add_request.title'), 
@@ -59,7 +59,7 @@ const HelpGuide = () => {
         <View style={styles.container}>
           <Text style={styles.title}> {t("Help Guide")}</Text>
 
-          {/* Video Section */}
+        
           <Video
             source={require('../../assets/videos/guidevideo.mp4')}
             style={styles.video}
@@ -68,7 +68,7 @@ const HelpGuide = () => {
             shouldPlay={false}
           />
 
-          {/* Steps Section */}
+         
           {steps.map((step, index) => (
             <View key={index} style={styles.stepContainer}>
               <TouchableOpacity 
@@ -82,12 +82,12 @@ const HelpGuide = () => {
             </View>
           ))}
 
-          {/* Open PDF Button */}
+       
           <TouchableOpacity style={styles.button} onPress={() => setShowPDF(!showPDF)}>
             <Text style={styles.buttonText}>{showPDF ? "Hide PDF" : "Open PDF"}</Text>
           </TouchableOpacity>
 
-          {/* Scrollable PDF Viewer */}
+          
           {showPDF && (
             <View style={styles.pdfWrapper}>
               <ScrollView style={styles.pdfScroll} nestedScrollEnabled={true}>

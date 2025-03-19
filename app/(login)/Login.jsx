@@ -56,7 +56,7 @@ const Login = () => {
 
         // showToast("🎉 Login Successful! Redirecting...");
         setTimeout(() => {
-          router.replace("/(user)/ElectionScreen");
+          router.replace("/(user)/HomeScreen");
         }, 1000);
       } else {
         showToast(response.data.message || "Unexpected error.");
@@ -153,11 +153,14 @@ const Login = () => {
     backgroundColor: "#fff",
   },
   background: {
-    width: width,
-    height: height,
+    flex: 1,  
+    width: "100%", 
+    height: "100%", 
    
-  
+    
+    resizeMode: "cover", 
   },
+  
   container: {
     justifyContent: "center",
     alignItems: "center",
