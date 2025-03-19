@@ -10,12 +10,14 @@ import {
   Text,
   TextInput,
   Dimensions,
-  TouchableOpacity,
+  RefreshControl,
+  TouchableOpacity
 } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 import * as Device from "expo-device";
+import BackgroundSvg from '../../assets/images/background.svg';
 
 const { width, height } = Dimensions.get("window");
 
@@ -35,6 +37,7 @@ export default function Register() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [deviceId, setDeviceId] = useState("");
   const [showConsentModal, setShowConsentModal] = useState(false);
+  const [refreshing, setRefreshing] = useState(false); 
 
 
   // Get Device ID
@@ -45,11 +48,23 @@ export default function Register() {
     }
     fetchDeviceId();
   }, []);
+  const onRefresh = async () => {
+    setRefreshing(true);
+    try {
+      
+      await new Promise(resolve => setTimeout(resolve, 1500)); 
+      
+    } catch (error) {
+      console.error("Error refreshing:", error);
+    } finally {
+      setRefreshing(false);
+    }
+  };
 
-  // Strong password validation function
+
   const isValidPassword = (password) => {
-    if (!password) return false; // Prevents null or undefined errors
-    return /^(?=.*[a-zA-Z])(?=.*\d).{6,}$/.test(password);
+    if (!password) return false; 
+    return /^(?=.*[a-zA-Z])(?=.*\d).{8,}$/.test(password);
   };
   
 
@@ -60,14 +75,16 @@ export default function Register() {
 
     if (!isValidPassword(form.password)) {
       setErrorMessage(
-        "Password must be at least 8 characters long, contain an uppercase letter, a number, and a special character."
+        `${t("checkpassword.step1")} ${t("checkpassword.step2")} ${t("checkpassword.step3")}`
       );
+      
       setLoading(false);
       return;
     }
+    
 
     if (form.password !== form.confirmPassword) {
-      setErrorMessage("Passwords do not match.");
+      setErrorMessage(t("Passwords do not match."));
       setLoading(false);
       return;
     }
@@ -108,12 +125,11 @@ export default function Register() {
 
   return (
     <SafeAreaView style={styles.safeArea}>
+      <View style={styles.background}>
+                                  <BackgroundSvg width="100%" height="100%" preserveAspectRatio="xMidYMid slice" />
+                                </View>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <ImageBackground
-          source={require("../../assets/images/background.png")}
-          style={styles.background}
-          resizeMode="cover"
-        >
+        
           <View style={styles.container}>
           
             <Text style={styles.headerText}>{t("Hello! Register to get started…")}</Text>
@@ -218,11 +234,11 @@ export default function Register() {
               </TouchableOpacity>
 
            
-            <TouchableOpacity onPress={() => router.push("/(login)/Login")}>
+            <TouchableOpacity onPress={() => router.push("/(login)/OTPVerification")}>
               <Text style={styles.signInText}>{t("Have an Account! Login")}</Text>
             </TouchableOpacity>
           </View>
-        </ImageBackground>
+        
       </ScrollView>
         {showConsentModal && (
           <View style={styles.modalOverlay}>
@@ -251,7 +267,8 @@ export default function Register() {
                 style={styles.disagreeButton}
                 onPress={() => {
                   setShowConsentModal(false);
-                  alert("You must agree to proceed.");
+                  handleRegister();
+                  // alert("You must agree to proceed.");
                 }}
               >
                 <Text style={styles.disagreeButtonText}>{t("Disagree")}</Text>
@@ -268,7 +285,7 @@ export default function Register() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "white",
   },
   scrollContainer: {
     flexGrow: 1,
@@ -276,11 +293,15 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   background: {
-    flex: 1,
-    width: width,
-    height: height,
-    alignItems: "center",
+    position: "absolute",
+    top: 0,
+    left: 0,  
+    right: 0,
+    bottom: 0,
+    width: "100%",  
+    height: "100%",
   },
+  
   container: {
     width: "85%",
     alignItems: "center",
@@ -319,7 +340,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#fff",
+    backgroundColor: "white",
     borderRadius: 30,
     paddingHorizontal: 15,
     marginBottom: 6,
@@ -351,7 +372,7 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#fff",
+    color: "white",
   },
   signInText: {
     fontSize: 14,
@@ -386,7 +407,7 @@ const styles = StyleSheet.create({
   },
   
   iconContainer: {
-    backgroundColor: "#fff",
+    backgroundColor: "white",
     padding: 20,
     borderRadius: 50,
     marginBottom: 10,
@@ -418,7 +439,7 @@ const styles = StyleSheet.create({
   },
   
   agreeButtonText: {
-    color: "#fff",
+    color: "white",
     fontWeight: "bold",
     fontSize: 16,
      backgroundColor: "#94098A",
@@ -435,7 +456,7 @@ const styles = StyleSheet.create({
   },
   
   disagreeButtonText: {
-    color: "#fff",
+    color: "white",
     fontWeight: "bold",
     fontSize: 16,
   },

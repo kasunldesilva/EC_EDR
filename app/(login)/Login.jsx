@@ -17,6 +17,7 @@ import {
   Dimensions,
   Image
 } from "react-native";
+import BackgroundSvg from '../../assets/images/background.svg';
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
@@ -73,11 +74,10 @@ const Login = () => {
   };
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
-      <ImageBackground
-                source={require("../../assets/images/background.png")}
-                style={styles.background}
-                resizeMode="cover"
-              >
+      <View style={styles.background}>
+                            <BackgroundSvg width="100%" height="100%" preserveAspectRatio="xMidYMid slice" />
+                          </View>
+     
             <View>
             <Text style={styles.texts}>{t("Welcome Back! Glad to see you")}</Text>
             </View>
@@ -144,7 +144,7 @@ const Login = () => {
             </TouchableOpacity>
           </ScrollView>
         </KeyboardAvoidingView>
-      </ImageBackground>
+      
     </SafeAreaView>
   );
 };const styles = StyleSheet.create({
@@ -153,13 +153,15 @@ const Login = () => {
     backgroundColor: "#fff",
   },
   background: {
-    flex: 1,  
-    width: "100%", 
-    height: "100%", 
-   
-    
-    resizeMode: "cover", 
+    position: "absolute",
+    top: 0,
+    left: 0,  
+    right: 0,
+    bottom: 0,
+    width: "100%",  
+    height: "100%",
   },
+  
   
   container: {
     justifyContent: "center",

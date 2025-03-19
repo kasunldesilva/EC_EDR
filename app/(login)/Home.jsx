@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useRouter } from "expo-router"; 
+import BackgroundSvg from '../../assets/images/background.svg';
 
 const { width, height } = Dimensions.get("window");
 
@@ -21,12 +22,11 @@ export default function Home() {
 
   return (
     <SafeAreaView style={styles.safeArea}>
+      <View style={styles.background}>
+                      <BackgroundSvg width="100%" height="100%" preserveAspectRatio="xMidYMid slice" />
+                    </View>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <ImageBackground
-          source={require("../../assets/images/background.png")}
-          style={styles.background}
-          resizeMode="cover"
-        >
+        
           <View style={styles.container}>
            
             <Image
@@ -66,7 +66,7 @@ export default function Home() {
               <Text style={styles.buttonText}>{t("Register")}</Text>
             </TouchableOpacity>
           </View>
-        </ImageBackground>
+        
       </ScrollView>
     </SafeAreaView>
   );
@@ -75,18 +75,19 @@ export default function Home() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "white",
   },
   scrollContainer: {
     flexGrow: 1,
   },
   background: {
-    flex: 1,  // Allows the image to take the full screen
-    width: "100%", 
-    height: "100%", 
-    alignItems: "center",
-    
-    resizeMode: "cover", 
+    position: "absolute",
+    top: 0,
+    left: 0,  
+    right: 0,
+    bottom: 0,
+    width: "100%",  
+    height: "100%",
   },
   
   
@@ -97,7 +98,7 @@ const styles = StyleSheet.create({
     
   },
   logo: {
-    width: width * 0.7, 
+    width: width * 0.6, 
     height: width * 0.4, 
     marginTop:40, 
   },
@@ -107,20 +108,20 @@ const styles = StyleSheet.create({
     marginTop:0, 
   },
   text: {
-    fontSize: 25, 
+    fontSize: 20, 
     fontWeight: "bold",
     color: "#2E073F",
     marginBlockStart: 0,
   },
   buttonContainer: {
     marginTop: 0,
-    width: "80%",
+    width: "100%",
     alignItems: "center",
   },
   button: {
     backgroundColor: "#63075D", 
     paddingVertical: 14,
-    width: "100%", 
+    width: "80%", 
     marginBottom: 15, 
     borderRadius: 30,
     alignItems: "center",
@@ -133,7 +134,7 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#fff",
+    color: "white",
   },
   welcomeText: {
     fontSize: 16,
@@ -147,7 +148,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#94098A",
     textAlign: "center",
-    marginBottom:20
+    marginBottom:20,
+    margin:5
    
     
    

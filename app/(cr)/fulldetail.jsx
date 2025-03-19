@@ -15,16 +15,66 @@ import { useTranslation } from "react-i18next";
 import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialIcons } from "@expo/vector-icons";
+import { format } from 'date-fns'; 
+
 
 export default function FullDetailScreen() {
   const { id } = useLocalSearchParams();
   const [complaint, setComplaint] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
     const router = useRouter();
     const [statusList, setStatusList] = useState([]);
     const [statusItems, setStatusItems] = useState([]);
+    const sriLankaDistricts = [
+      { label: t("Colombo"), value: "1" },
+      { label: t("Gampaha"), value: "2" },
+      { label: t("Kalutara"), value: "3" },
+      { label: t("Kandy"), value: "4" },
+      { label: t("Matale"), value: "5" },
+      { label: t("Nuwara Eliya"), value: "6" },
+      { label: t("Galle"), value: "7" },
+      { label: t("Matara"), value: "8" },
+      { label: t("Hambantota"), value: "9" },
+      { label: t("Jaffna"), value: "10" },
+      { label: t("Kilinochchi"), value: "11" },
+      { label: t("Mannar"), value: "12" },
+      { label: t("Vavuniya"), value: "13" },
+      { label: t("Mullaitivu"), value: "14" },
+      { label: t("Batticaloa"), value: "15" },
+      { label: t("Ampara"), value: "16" },
+      { label: t("Trincomalee"), value: "17" },
+      { label: t("Kurunegala"), value: "18" },
+      { label: t("Puttalam"), value: "19" },
+      { label: t("Anuradhapura"), value: "20" },
+      { label: t("Polonnaruwa"), value: "21" },
+      { label: t("Badulla"), value: "22" },
+      { label: t("Moneragala"), value: "23" },
+      { label: t("Ratnapura"), value: "24" },
+      { label: t("Kegalle"), value: "25" },
+    ];
+    const getDistrictName = (districtNumber) => {
+      const district = sriLankaDistricts.find(d => d.value === districtNumber.toString());
+      return district ? district.label : t("Unknown District");
+    };
+    const formatDate = (date, time) => {
+      if (!date || !time) return ''; 
+    
+     
+      const combinedDateTime = `${date} ${time}`;
+    
+     
+      if (i18n.language === 'en') {
+        return format(new Date(combinedDateTime), 'Pp'); 
+      } else if (i18n.language === 'si') {
+        return format(new Date(combinedDateTime), 'Pp'); 
+      } else {
+       
+        return format(new Date(combinedDateTime), 'Pp');
+      }
+    };
+    
 
 
   const handleBack = () => {
@@ -85,7 +135,7 @@ export default function FullDetailScreen() {
           setStatusList([]);
         }
       } catch (err) {
-        console.error("❌ Status Fetch Error:", err);
+        console.error(" Status Fetch Error:", err);
         
       }
     };
@@ -114,7 +164,7 @@ export default function FullDetailScreen() {
         case "ACTIVE":
           newStatusItems.push({
             item_level: "NEW",
-            comment_org: t("Your complaint/request has been successfully received by the Election Commission, and it is now being processed for further action"),
+            comment_org: t("statusdis.NEW"),
           });
           break;
   
@@ -128,13 +178,13 @@ export default function FullDetailScreen() {
           if (statusList.some(item => item.item_level === "NEW")) {
             newStatusItems.push({
               item_level: "NEW",
-              comment_org: t("Your complaint/request has been successfully received by the Election Commission, and it is now being processed for further action"),
+              comment_org: t("statusdis.NEW"),
             });
           }
           if (statusList.some(item => item.item_level === "POLICE_ASSIGN")) {
             newStatusItems.push({
               item_level: "POLICE ASSIGN",
-              comment_org: t("Your complaint has been forwarded to the Sri Lanka Police for necessary action."),
+              comment_org: t("statusdis.POLICE"),
             });
           }
           if (newStatusItems.length === 0) {
@@ -209,7 +259,7 @@ export default function FullDetailScreen() {
 
         {complaint && (
           <>
-            {/* Header */}
+           
             <Text style={styles.electionTitle}>
               {t("Local Authorities Election")}- 2025
             </Text>
@@ -219,7 +269,7 @@ export default function FullDetailScreen() {
               <Text style={styles.refBold}>EDRAPP{complaint.id}</Text>
             </Text>
 
-            {/* Complaint Box */}
+          
             <View style={styles.complaintBox}>
                <View style={styles.containers}>
                           <LinearGradient
@@ -228,44 +278,45 @@ export default function FullDetailScreen() {
                                end={{ x: 1, y: 0 }}
                                style={styles.badge}
                               >
-                                <Text style={styles.badgeText}>{t(complaint?.item_type) || "No Type"}</Text>
+                                <Text style={styles.badgeText}> {complaint?.item_type === 'COMPLAIN' ? t('Complain') : complaint?.item_type === 'REQUEST' ? t('Request') : t('')}</Text>
                             </LinearGradient>
                     </View>
 
               <Text style={styles.complaintTitle}>
                 {t("Title of the Item")}
               </Text>
-              <Text style={styles.itemTitle}>
+              <Text style={styles.itemTitle1}>
                 {complaint.title}
               </Text>
 
               <Text style={styles.descriptionTitle}>
                 {t("Description of the Item")}
               </Text>
-              <Text style={styles.itemDescription}>
+              <Text style={styles.itemTitle1}>
                 {complaint.description}
               </Text>
               <Text style={styles.complaintTitle}>
-                {t("District")}
+                {t("Title of the Item")}
               </Text>
-              <Text style={styles.itemTitle}>
-                {complaint.district}
+              <Text style={styles.itemTitle1}>
+                {getDistrictName(complaint.district)}
+              </Text>
+             
+              <Text style={styles.complaintTitle}>
+                {t("Date and Time")}
+              </Text> 
+               <Text style={styles.itemTitle}>
+               {formatDate(complaint.incident_date, complaint.incident_time)}
               </Text>
               {/* <Text style={styles.complaintTitle}>
-                {t("Date and Time")}
+                {t("status")}
               </Text> */}
               {/* <Text style={styles.itemTitle}>
-                {complaint.up}
-              </Text> */}
-              <Text style={styles.complaintTitle}>
-                {t("status")}
-              </Text>
-              <Text style={styles.itemTitle}>
                 {complaint.status}
-              </Text>
+              </Text> */}
             </View>
 
-            {/* Images */}
+           
             {renderImages()}
 
            
@@ -315,7 +366,7 @@ const styles = StyleSheet.create({
   },
   referenceNumber: {
     fontSize: 18,
-    color: "#555",
+    color: "#63075D",
     marginVertical: 4,
   },
   refBold: {
@@ -349,7 +400,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     marginTop: 2,
-    color:"#9C2A8E"
+    color:"#63075D"
   },
   itemTitle: {
     fontSize: 14,
@@ -357,14 +408,22 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: 1,
   },
-  descriptionTitle: {
+  itemTitle1: {
     fontSize: 14,
+    color: "#9C2A8E",
     fontWeight: "bold",
     marginTop: 5,
+   
+  },
+  descriptionTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginTop: 0,
+     color:"#63075D"
   },
   itemDescription: {
     color: "#555",
-    marginTop: 8,
+    marginTop: 5,
   },
   imageContainer: {
     flexDirection: "row",

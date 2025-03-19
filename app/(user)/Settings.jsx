@@ -33,7 +33,7 @@ const SettingsScreen = () => {
 
   const handleLogout = async () => {
     try {
-      await AsyncStorage.removeItem("userToken"); a
+      await AsyncStorage.removeItem("userToken"); 
       router.replace("/(login)/Selecter"); 
     } catch (error) {
       console.error("Logout failed:", error);
@@ -44,13 +44,14 @@ const SettingsScreen = () => {
     <>
       
       <Appbar.Header style={styles.appBar}>
-            <Appbar.Content title="" />
-            <View style={styles.titleContainer}>
-              <Appbar.Content title="EC EDR" />
-            </View>
-            <Appbar.Action icon="account" onPress={() => {}} />
-            <Appbar.Action icon="dots-vertical" onPress={() => {}} />
-          </Appbar.Header>
+        <Appbar.Content title="" />
+        <View style={styles.titleContainer}>
+          <Appbar.Content title="EC EDR" />
+        </View>
+        <Appbar.Action icon="account" onPress={() => {}} />
+        <Appbar.Action icon="dots-vertical" onPress={showLogoutDialog} />  
+      </Appbar.Header>
+
 
      
       <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -89,15 +90,7 @@ const SettingsScreen = () => {
         <Divider style={styles.divider} />
 
       
-        <View style={styles.logoutContainer}>
-          <Button 
-            mode="contained" 
-            style={styles.logoutButton} 
-            onPress={showLogoutDialog}
-          >
-            {t("Logout")}
-          </Button>
-        </View>
+        
       </ScrollView>
 
      
@@ -115,7 +108,7 @@ const SettingsScreen = () => {
       
       <Portal>
         <Dialog visible={logoutVisible} onDismiss={hideLogoutDialog}>
-          <Dialog.Title style={styles.dialogTitle}>{t("Confirm Logout")}</Dialog.Title>
+          <Dialog.Title style={styles.dialogTitle}>{t("Logout")}</Dialog.Title>
           <Dialog.Content>
             <Button mode="contained" style={styles.languageButton} onPress={handleLogout}>
               {t("Yes, Logout")}
@@ -156,7 +149,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   dialogTitle: {
-    fontWeight: "bold",
+   
     textAlign: "center",
     color:"#94098A"
   },

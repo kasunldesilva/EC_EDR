@@ -5,17 +5,7 @@ import { useFonts } from "expo-font";
 import { View, ActivityIndicator } from "react-native";
 
 export default function RootLayout() {
-  const [fontsLoaded] = useFonts({
-    "CustomFont": require("../assets/fonts/myfont.ttf"), // Example
-  });
-
-  if (!fontsLoaded) {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="large" color="#6200EE" />
-      </View>
-    );
-  }
+  
 
   return (
     <I18nextProvider i18n={i18n}> 

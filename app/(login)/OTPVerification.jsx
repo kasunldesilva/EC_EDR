@@ -8,12 +8,16 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  SafeAreaView,
+  ScrollView,
   Alert,
   Image,
 } from "react-native";
 import axios from "axios";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter, useLocalSearchParams } from "expo-router";
+import BackgroundSvg from '../../assets/images/background.svg';
+
 
 const { width, height } = Dimensions.get("window");
 
@@ -109,7 +113,7 @@ export default function OTPVerification() {
   const handleResendOtp = async () => {
     try {
       setIsResendDisabled(true);
-      setCounter(60); // restart timer
+      setCounter(60); 
 
       const API_URL = "https://ecedr.elections.gov.lk/test/app_user/reotp";
       console.log("Resending OTP for mobile:", mobile);
@@ -121,120 +125,122 @@ export default function OTPVerification() {
       );
 
       if (response.data.message?.toLowerCase().includes("otp sent")) {
-        // Alert.alert("Success", "OTP has been resent.");
+       
       } else {
         Alert.alert("Error", response.data.message || t("Invalid OTP."));
       }
     } catch (error) {
       console.error("Resend OTP Error:", error.response?.data || error.message);
-      Alert.alert("Error", error.response?.data?.message || "An error occurred while resending OTP.");
+      // Alert.alert("Error", error.response?.data?.message || "An error occurred while resending OTP.");
     }
   };
 
   return (
-    <ImageBackground
-      source={require("../../assets/images/background.png")}
-      style={styles.background}
-      resizeMode="cover"
-    >
-      <View style={styles.container}>
-        
-        <Text style={styles.headerText}>{t("Continue Registration")}...</Text>
-
-       
-        <Text style={styles.header}>{t("Verify")}</Text>
-
-        
-        <View style={styles.subTextContainer}>
-          <Text style={styles.subText}>
-            {t("An SMS has been sent. Please check your mobile and complete the OTP")}
-          </Text>
-        </View>
-
-        
-        <View style={styles.timerResendContainer}>
-          {isResendDisabled ? (
-            <Text style={styles.timerText}>
-              {t("Resend OTP in")} {counter}s
-            </Text>
-          ) : (
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.background}>
+                                  <BackgroundSvg width="100%" height="100%" preserveAspectRatio="xMidYMid slice" />
+                                </View>
+       <ScrollView contentContainerStyle={styles.scrollContainer}>
+          <View style={styles.container}>
             
-              
-              
-              <TouchableOpacity onPress={handleResendOtp} style={styles.resendButton}>
-                <Text style={styles.resendButtonText}>{t("Didn't receive the code…? Resend Code")}</Text>
-              </TouchableOpacity>
-         
+            <Text style={styles.headerText}>{t("Continue Registration")}...</Text>
+
           
-          )}
-        </View>
+            <Text style={styles.header}>{t("Verify")}</Text>
 
-        {/* OTP Inputs */}
-        <View style={styles.otpContainer}>
-          {otp.map((value, index) => (
-            <TextInput
-              key={index}
-              ref={(ref) => (otpInputs.current[index] = ref)}
-              style={styles.otpInput}
-              keyboardType="numeric"
-              maxLength={1}
-              value={value}
-              onChangeText={(text) => handleOtpChange(text, index)}
-              onKeyPress={(event) => handleKeyPress(event, index)}
-            />
-          ))}
-        </View>
-
-        {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
-
-        {/* Verify Button */}
-        <TouchableOpacity
-          style={styles.button}
-          onPress={handleOtpVerification}
-          disabled={loading}
-        >
-          <Text style={styles.buttonText}>{loading ? "Verifying..." : t("Verify")}</Text>
-        </TouchableOpacity>
-
-        {/* Logo */}
-        <Image
-          source={require("../../assets/images/splash image.png")}
-          style={styles.logo}
-          resizeMode="contain"
-        />
-      </View>
-
-      {/* Success Modal */}
-      {showSuccessModal && (
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContainer}>
-            <View style={styles.iconContainer}>
-              <Ionicons
-                name="checkmark-done-circle-outline"
-                size={60}
-                color="#94098A"
-              />
+            
+            <View style={styles.subTextContainer}>
+              <Text style={styles.subText}>
+                {t("An SMS has been sent. Please check your mobile and complete the OTP")}
+              </Text>
             </View>
 
-            <Text style={styles.modalTitle}>{t("Congratulations !")}</Text>
+            
+            <View style={styles.timerResendContainer}>
+              {isResendDisabled ? (
+                <Text style={styles.timerText}>
+                  {t("Resend OTP in")} {counter}s
+                </Text>
+              ) : (
+                
+                  
+                  
+                  <TouchableOpacity onPress={handleResendOtp} style={styles.resendButton}>
+                    <Text style={styles.resendButtonText}>{t("Didn't receive the code…? Resend Code")}</Text>
+                  </TouchableOpacity>
+            
+              
+              )}
+            </View>
 
-            <Text style={styles.modalText}>
-              {t("Registered successfully. You’ll be redirected to the login screen now")}
-            </Text>
+            {/* OTP Inputs */}
+            <View style={styles.otpContainer}>
+              {otp.map((value, index) => (
+                <TextInput
+                  key={index}
+                  ref={(ref) => (otpInputs.current[index] = ref)}
+                  style={styles.otpInput}
+                  keyboardType="numeric"
+                  maxLength={1}
+                  value={value}
+                  onChangeText={(text) => handleOtpChange(text, index)}
+                  onKeyPress={(event) => handleKeyPress(event, index)}
+                />
+              ))}
+            </View>
 
+            {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
+
+            {/* Verify Button */}
             <TouchableOpacity
-              style={styles.agreeButton}
-              onPress={() => {
-                setShowSuccessModal(false);
-                router.push("/Login");
-              }}
+              style={styles.button}
+              onPress={handleOtpVerification}
+              disabled={loading}
             >
-              <Text style={styles.agreeButtonText}>{t("Login")}</Text>
+              <Text style={styles.buttonText}> {t("Verify")}</Text>
             </TouchableOpacity>
+
+            {/* Logo */}
+            <Image
+              source={require("../../assets/images/splash image.png")}
+              style={styles.logo}
+              resizeMode="contain"
+            />
           </View>
-        </View>
-      )}
-    </ImageBackground>
+
+          {/* Success Modal */}
+          {showSuccessModal && (
+            <View style={styles.modalOverlay}>
+              <View style={styles.modalContainer}>
+                <View style={styles.iconContainer}>
+                  <Ionicons
+                    name="checkmark-done-circle-outline"
+                    size={60}
+                    color="#94098A"
+                  />
+                </View>
+
+                <Text style={styles.modalTitle}>{t("Congratulations !")}</Text>
+
+                <Text style={styles.modalText}>
+                  {t("Registered successfully. You’ll be redirected to the login screen now")}
+                </Text>
+
+                <TouchableOpacity
+                  style={styles.agreeButton}
+                  onPress={() => {
+                    setShowSuccessModal(false);
+                    router.push("/Login");
+                  }}
+                >
+                  <Text style={styles.agreeButtonText}>{t("Login")}</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          )}
+        </ScrollView>
+     
+      </SafeAreaView>
   );
 }
 
@@ -245,13 +251,23 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
 
-  background: {
-    flex: 1,  // Allows the image to take the full screen
-    width: "100%", 
-    height: "100%", 
+  safeArea: {
+    flex: 1,
+    backgroundColor: "white",
+  },
+  scrollContainer: {
+    flexGrow: 1,
     alignItems: "center",
-    justifyContent: "center",
-    resizeMode: "cover", 
+    paddingTop: 20,
+  },
+  background: {
+    position: "absolute",
+    top: 0,
+    left: 0,  
+    right: 0,
+    bottom: 0,
+    width: "100%",  
+    height: "100%",
   },
 
   headerText: {
@@ -405,7 +421,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 30,
     width: "100%",
-    alignItems: "left",
+    alignItems: "center",
   },
 
   agreeButtonText: {

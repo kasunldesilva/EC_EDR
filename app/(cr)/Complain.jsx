@@ -80,28 +80,28 @@ const ComplaintScreen = () => {
   const sriLankaDistricts = [
     { label: t("Colombo"), value: "1" },
     { label: t("Gampaha"), value: "2" },
-    { label: t("Kalutara"), value: "3" },
+    { label: t("Kaluthara"), value: "3" },
     { label: t("Kandy"), value: "4" },
     { label: t("Matale"), value: "5" },
     { label: t("Nuwara Eliya"), value: "6" },
     { label: t("Galle"), value: "7" },
     { label: t("Matara"), value: "8" },
-    { label: t("Hambantota"), value: "9" },
+    { label: t("Hambanthota"), value: "9" },
     { label: t("Jaffna"), value: "10" },
     { label: t("Kilinochchi"), value: "11" },
     { label: t("Mannar"), value: "12" },
     { label: t("Vavuniya"), value: "13" },
-    { label: t("Mullaitivu"), value: "14" },
-    { label: t("Batticaloa"), value: "15" },
+    { label: t("Mulathivu"), value: "14" },
+    { label: t("Baticoloa"), value: "15" },
     { label: t("Ampara"), value: "16" },
     { label: t("Trincomalee"), value: "17" },
     { label: t("Kurunegala"), value: "18" },
-    { label: t("Puttalam"), value: "19" },
+    { label: t("Puththalama"), value: "19" },
     { label: t("Anuradhapura"), value: "20" },
     { label: t("Polonnaruwa"), value: "21" },
     { label: t("Badulla"), value: "22" },
-    { label: t("Moneragala"), value: "23" },
-    { label: t("Ratnapura"), value: "24" },
+    { label: t("Monaragala"), value: "23" },
+    { label: t("Rathnapura"), value: "24" },
     { label: t("Kegalle"), value: "25" },
   ];
 
@@ -521,34 +521,35 @@ const ComplaintScreen = () => {
 
       {success && complaintID ? (
           <View style={styles.modalOverlay}>
-            <View style={styles.modalContainer}>
-              <View style={styles.iconContainer}>
-                <Ionicons name="checkmark-done-circle-outline" size={60} color="#94098A" />
-              </View>
-
-              <Text style={styles.modalTitle}>{t("Thank you for your submission!")}</Text>
-
-              <Text style={styles.modalText}>{t("Your reference number is ")}</Text>
-              <Text style={styles.modalText}>EDRAPPPLAE {complaintID}</Text>
-              <Text style={styles.modalText}>{t("Kindly keep it safe for future use.")}</Text>
-
+          <View style={styles.modalContainer}>
+            <View style={styles.iconContainer}>
+              <Ionicons name="checkmark-done-circle-outline" size={60} color="#94098A" />
+            </View>
+            <Text style={styles.modalTitle}>{t("Thank you for your submission!")}</Text>
+            <Text style={styles.modalText}>
+              {t("Your reference number is ")}{"\n"}
+              <Text style={styles.modalTexts}>EDRAPPPLAE{complaintID}</Text>
+            </Text>
+            <Text style={styles.modalText}>{t("Kindly keep it safe for future use.")}</Text>
+            <View style={styles.buttonContainer}>
               <TouchableOpacity
-                    style={styles.agreeButton}
-                    onPress={() => {
-                      setSuccess(false);
-                      setRequest({
-                            title: "",
-                          description: "",
-                           incident_date: "",
-                       });
-                      setFile(null);
-                       router.replace("/(user)/HomeScreen"); 
-                      }}
-                   >
-                      <Text style={styles.agreeButtonText}>{t("okay")}</Text>
-                </TouchableOpacity>
+                style={styles.agreeButton}
+                onPress={() => {
+                  setSuccess(false);
+                  setRequest({
+                    title: "",
+                    description: "",
+                    incident_date: "",
+                  });
+                  setFile(null);
+                  router.replace("/(user)/HomeScreen");
+                }}
+              >
+                <Text style={styles.agreeButtonText}>{t("okay")}</Text>
+              </TouchableOpacity>
             </View>
           </View>
+        </View>
         ) : null}
 
     </View>
@@ -663,35 +664,56 @@ const styles = StyleSheet.create({
     alignItems: "center",
     zIndex: 10,
   },
-
   modalContainer: {
     width: "85%",
     backgroundColor: "#FCE4FF",
     borderRadius: 20,
     padding: 20,
     alignItems: "center",
+    justifyContent: "center",
     elevation: 5,
+    textAlign: "center",  // Ensures text is centered within the container
   },
-
   iconContainer: {
-    backgroundColor: "white",
+    backgroundColor: "#fff",
     padding: 20,
     borderRadius: 50,
     marginBottom: 10,
   },
-
   modalTitle: {
     fontSize: 22,
     fontWeight: "bold",
     color: "#94098A",
     marginBottom: 10,
+    textAlign: "center",  // This will center the text
   },
-
   modalText: {
     fontSize: 16,
-    color: "#333",
+    color: '#94098A',
     textAlign: "center",
     marginBottom: 20,
+  },
+  modalTexts: {
+    fontSize: 18,
+    color: '#63075D',
+    textAlign: "center",
+    marginBottom: 20,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end', // Pushes the button to the right side
+    width: '100%',
+  },
+  agreeButton: {
+    backgroundColor: "#94098A",
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 20,
+  },
+  agreeButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
   },
   appBar: {
     backgroundColor: 'white',

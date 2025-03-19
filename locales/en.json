@@ -50,16 +50,16 @@
     "App Version": "App Version",
     "General": "General",
     "Welcome Back! Hi": "Welcome Back! Hi",
-    "logout": "Logout",
+    "Logout": "Logout",
     "Continue Registration": "Continue Registration",
     "something_went_wrong": "Something Went Wrong",
     "invalid_mobile_number": "Invalid Mobile Number",
     "invalid_nic": "Invalid NIC",
     "invalid_username": "Invalid Username",
     "invalid_password": "Invalid Password",
-    "password_not_match": "Passwords do not match",
+    "Passwords do not match.": "Passwords do not match.",
     "Invalid OTP": "Invalid OTP",
-    "ok": "OK",
+    "Ok": "OK",
     "All Complaints": "All Complaints",
     "All Requests": "All Requests",
     "Latest Complaint / Request": "Latest Complaint / Request",
@@ -89,7 +89,7 @@
     "Kaluthara": "Kaluthara",
     "Kandy": "Kandy",
     "Matale": "Matale",
-    "Nuwaraeliya": "Nuwara Eliya",
+    "Nuwara Eliya": "Nuwara Eliya",
     "Galle": "Galle",
     "Matara": "Matara",
     "Hambanthota": "Hambanthota",
@@ -97,12 +97,12 @@
     "Kilinochchi": "Kilinochchi",
     "Mannar": "Mannar",
     "Vavuniya": "Vavuniya",
-    "Mulathiv": "Mulathiv",
+    "Mulathivu": "Mulathivu",
     "Baticoloa": "Baticoloa",
     "Ampara": "Ampara",
     "Trincomalee": "Trincomalee",
     "Kurunegala": "Kurunegala",
-    "Puttlam": "Puttlam",
+    "Puththalama": "Puththalama",
     "Anuradhapura": "Anuradhapura",
     "Polonnaruwa": "Polonnaruwa",
     "Badulla": "Badulla",
@@ -151,7 +151,7 @@
     "gps_location": "GPS Location",
     "incident_location": "Incident Location",
     "add_complaint": {
-      "title": "How to Add New Complaint",
+      "title": "1 .How to Add New Complaint",
       "login": "- Log in to your account",
       "home_tap": "- On the home screen, tap on Add Complaint or Request tab",
       "fill_details": "- Navigate to the Complaints section",
@@ -161,22 +161,48 @@
       
     },
     "add_request": {
-      "title": "How to Add a New Request",
-      "login": "- Open the app and log in.",
-      "tap": "- Tap 'New Request' tab.",
-      "fill_details": "- Provide required details and submit.",
-      "submit": ""
+      "title": "2 .How to Add a New Request",
+      "login": "-Navigate to the Requests section..",
+      "tap": "- Fill in the request details (e.g., title, description).",
+      "fill_details": "- If you want, you can attach a file, but it's not compulsory."
+      
     },
     "review_complaints": {
-      "title": "Review Latest Complaints/Requests",
-      "navigate": "- Go to 'History' tab.",
-      "find": "- Find and tap your latest complaint/request for details."
+      "title": "3. Review Latest Complaints/Requests",
+      "navigate": "- Go to the home screen, tap on Latest Complaint/Request section.",
+      "find": "- Click the Details button..",
+      "find1": "- View the status and details of the complaint/Request.."
     },
     "change_language_logout": {
-      "title": "How to Change Language and Logout",
-      "settings": "- Open settings.",
-      "language": "- Choose 'Language' to change app language.",
-      "logout": "- Tap 'Logout' to sign out safely."
+      "title": "5 .How to Change Language and Logout",
+      "settings": "- Go to the Settings menu.",
+      "language": "- Select Language to change the app’s language.",
+      "logout": "- To log out, go to the Settings menu and tap on Logout.."
+    },
+    "Complaint and Request History View":{
+      "title": "4 .Complaint and Request History View",
+      "navigate": "- Navigate to the History section.",
+      "find": "- View a list of all your past complaints and requests.",
+      "find1": "-Tap on any entry to see detailed information and status"
+
+    },
+    "Thank":{
+      "title":"Thank you for using the Election Commission of Sri Lanka App!For any questions, feel free to contact our support team."
+
     }
+    ,
+    "Learn All":"Learn All",
+    "Date and Time":"Date and Time",
+    "checkpassword":{
+      "step1":"Password must contain at least 8 characters",
+      "step2":"Password must contain uppercase characters",
+      "step3":"Password must contain numbers"
+      
+    },
+    "statusdis":{
+      "NEW":"Your complaint/request has been successfully received by the Election Commission, and it is now being processed for further action",
+      "POLICE":"Your complaint has been forwarded to the Sri Lanka Police for necessary action."
+    }
+
   }
   

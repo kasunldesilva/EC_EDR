@@ -30,11 +30,15 @@ const HelpGuide = () => {
     },
     { 
       title: t('add_request.title'), 
-      details: `${t('add_request.login')}\n${t('add_request.tap')}\n${t('add_request.fill_details')}\n${t('add_request.submit')}`
+      details: `${t('add_complaint.login')}\n${t('add_complaint.home_tap')}\n${t('add_request.login')}\n${t('add_request.fill_details')}\n${t('add_complaint.submits1')}`
     },
     { 
       title: t('review_complaints.title'), 
-      details: `${t('review_complaints.navigate')}\n${t('review_complaints.find')}`
+      details: `${t('add_complaint.login')}\n${t('review_complaints.navigate')}\n${t('review_complaints.find')}\n${t('review_complaints.find1')}`
+    },
+    { 
+      title: t('Complaint and Request History View.title'), 
+      details: `${t('add_complaint.login')}\n${t('Complaint and Request History View.navigate')}\n${t('Complaint and Request History View.find')}\n${t('Complaint and Request History View.find1')}`
     },
     { 
       title: t('change_language_logout.title'), 
@@ -70,21 +74,23 @@ const HelpGuide = () => {
 
          
           {steps.map((step, index) => (
-            <View key={index} style={styles.stepContainer}>
-              <TouchableOpacity 
-                onPress={() => setExpandedStep(expandedStep === index ? null : index)} 
-                style={styles.stepHeader}
-              >
-                <Text style={styles.stepTitle}>{step.title}</Text>
-                <MaterialIcons name={expandedStep === index ? 'expand-less' : 'expand-more'} size={24} color="black" />
-              </TouchableOpacity>
-              {expandedStep === index && <Text style={styles.stepDetails}>{step.details}</Text>}
-            </View>
+           
+              <View key={index} style={styles.stepContainer}>
+                <TouchableOpacity 
+                  onPress={() => setExpandedStep(expandedStep === index ? null : index)} 
+                  style={styles.stepHeader}
+                >
+                  <Text style={styles.stepTitle}>{step.title}</Text>
+                  <MaterialIcons name={expandedStep === index ? 'expand-less' : 'expand-more'} size={24} color="black" />
+                </TouchableOpacity>
+                {expandedStep === index && <Text style={styles.stepDetails}>{step.details}</Text>}
+              </View>
+             
           ))}
 
        
           <TouchableOpacity style={styles.button} onPress={() => setShowPDF(!showPDF)}>
-            <Text style={styles.buttonText}>{showPDF ? "Hide PDF" : "Open PDF"}</Text>
+            <Text style={styles.buttonText}>{showPDF ? "Hide PDF" : t("Learn All")}</Text>
           </TouchableOpacity>
 
           
@@ -97,8 +103,15 @@ const HelpGuide = () => {
                   nestedScrollEnabled={true} 
                 />
               </ScrollView>
+
             </View>
           )}
+          <View style={styles.cont}>
+            <Text style={styles.text}>
+              {t("Thank.title")}
+            </Text>
+          </View>
+
         </View>
       </ScrollView>
     </>
@@ -126,7 +139,18 @@ const styles = StyleSheet.create({
   buttonText: { color: 'white', fontSize: 16 },
   pdfWrapper: { width: '100%', height: 500, marginTop: 20 },
   pdfScroll: { flex: 1 },
-  pdfViewer: { flex: 1, height: 500 }
+  pdfViewer: { flex: 1, height: 500 },
+  cont: {
+    flex: 1,
+    justifyContent: 'center',  
+    alignItems: 'center',     
+    padding: 20,
+  },
+  text: {
+    textAlign: 'center',       
+    color: '#63075D',         
+    fontSize: 14,              
+  },
 });
 
 export default HelpGuide;

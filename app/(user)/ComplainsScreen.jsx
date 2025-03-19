@@ -86,7 +86,7 @@ export default function ComplaintsList() {
       </Appbar.Header>
      
       <View style={styles.container}>
-        <Text style={styles.header}>{t("Local Authority Election")} - 2025</Text>
+       <Text style={styles.title}>{t("Local Authorities Election")}- 2025</Text>
         <Text style={styles.subHeader}>{t("My Complains/ Requests")}</Text>
 
         
@@ -111,7 +111,10 @@ export default function ComplaintsList() {
                                end={{ x: 1, y: 0 }}
                                style={styles.badge}
                               >
-                                <Text style={styles.badgeText}>{t(item?.item_type) || "No Type"}</Text>
+                                <Text style={styles.badgeText}>
+                                  {item?.item_type === 'COMPLAIN' ? t('Complain') : item?.item_type === 'REQUEST' ? t('Request') : t('')}
+                                </Text>
+
                             </LinearGradient>
                     </View>
           
@@ -145,7 +148,7 @@ const styles = StyleSheet.create({
   safeContainer: { flex: 1, backgroundColor: "#fff" },
   container: { flex: 1, padding: 10 },
   header: { fontSize: 16, color: "#800080", marginBottom: 5 },
-  subHeader: { fontSize: 16, color: "#9C2A8E", marginBottom: 10 },
+  subHeader: { fontSize: 16, color: "#9C2A8E", marginBottom: 10 ,paddingLeft:10},
   card: { 
     backgroundColor: "#fff0f6", 
     padding: 10, 
@@ -160,7 +163,7 @@ const styles = StyleSheet.create({
   },
   details: { flex: 1, paddingRight: 10 },
   boldText: { fontWeight: "bold", color: "#5C136B", marginTop: 2, fontSize: 14 },
-  text: { color: "#5C136B", fontSize: 14 },
+  text: { color: "#9C2A8E", fontSize: 14 },
   texts: { color: "#6D28D9", fontSize: 14 },
   button: { 
     backgroundColor: "#9C2A8E", 
@@ -196,4 +199,10 @@ const styles = StyleSheet.create({
     color: "white",
     backgroundColor: "transparent",
   },
+  title: { 
+    fontSize: 18, 
+    color: '#94098A' ,
+    paddingLeft:10
+  }
+    
 });

@@ -231,7 +231,7 @@ export default function Dashboard() {
                                         end={{ x: 1, y: 0 }}
                                         style={styles.badge}
                                     >
-                                        <Text style={styles.badgeText}>{t(item?.item_type) || "No Type"}</Text>
+                                        <Text style={styles.badgeText}> {item?.item_type === 'COMPLAIN' ? t('Complain') : item?.item_type === 'REQUEST' ? t('Request') : t('')}</Text>
                                     </LinearGradient>
                                     </View>
                                                             
@@ -242,7 +242,7 @@ export default function Dashboard() {
                                         <Text style={styles.text}>EDRAPPLAE{item?.id || "N/A"}</Text>
                                         <Text style={styles.boldText}>{t("Title")}:  <Text style={styles.text}>{item?.title || "No Title"}</Text></Text>
                                        
-                                        <Text style={styles.boldText}>{t("Status")}:  <Text style={styles.boldText}>{item?.status || "No Status"}</Text></Text>
+                                        <Text style={styles.boldText}>{t("Status")}:  <Text style={styles.boldTexts}>{item?.status || "No Status"}</Text></Text>
                                         
                                     </View>
                                     <TouchableOpacity
@@ -302,6 +302,7 @@ const styles = StyleSheet.create({
       },
     details: { flex: 1 },
     boldText: { fontWeight: 'bold',color:"#63075D",fontSize: 14,paddingTop:5},
+    boldTexts: { color:"#6D28D9",fontSize: 14,paddingTop:5},
    
     text: { fontSize: 14 ,color:"#9B287B"},
     button: { backgroundColor: '#63075D', paddingLeft: 15,paddingRight:20, borderRadius: 10, justifyContent: 'center', alignItems: 'center',marginTop:10,marginBottom:30 },

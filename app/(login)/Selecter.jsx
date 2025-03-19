@@ -13,6 +13,9 @@ import {
   Dimensions,
 } from "react-native";
 import i18n from "../../i18n";
+import BackgroundSvg from '../../assets/images/background.svg';
+
+
 
 const { width, height } = Dimensions.get("window");
 
@@ -27,12 +30,11 @@ const Selecter = () => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
+      <View style={styles.background}>
+                <BackgroundSvg width="100%" height="100%" preserveAspectRatio="xMidYMid slice" />
+              </View>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <ImageBackground
-          source={require("../../assets/images/background.png")}
-          style={styles.background}
-          resizeMode="cover"
-        >
+       
           <View style={styles.container}>
             <Image
               source={require("../../assets/images/national.png")}
@@ -83,7 +85,7 @@ const Selecter = () => {
               <Text style={styles.buttonText}>தமிழ்</Text>
             </TouchableOpacity>
           </View>
-        </ImageBackground>
+        
       </ScrollView>
     </SafeAreaView>
   );
@@ -92,19 +94,23 @@ const Selecter = () => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "whirte",
   },
   background: {
-    width: width,
-    height: height,
-    alignItems: "center",
+    position: "absolute",
+    top: 0,
+    left: 0,  
+    right: 0,
+    bottom: 0,
+    width: "100%",  
+    height: "100%",
   },
   scrollContainer: {
     flexGrow: 1,
   },
   container: {
     alignItems: "center",
-    width: "90%",
+    width: "100%",
   },
   logo: {
     width: width * 0.4,
@@ -140,7 +146,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   button: {
-    width: "90%",
+    width: "80%",
     height: 50,
     borderRadius: 25,
     backgroundColor: "#63075D",

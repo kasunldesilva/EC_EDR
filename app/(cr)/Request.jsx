@@ -182,7 +182,7 @@ const [tempDate, setTempDate] = useState(new Date());
        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
 
         <View style={styles.container}>
-          <Text style={styles.title}>{t("Local Authority Election ")}- 2025</Text>
+          <Text style={styles.title}>{t("Local Authorities Election")}- 2025</Text>
           <Text style={styles.heading}>{t("Request Details")}</Text>
 
           <TextInput
@@ -257,32 +257,36 @@ const [tempDate, setTempDate] = useState(new Date());
         </View>
         </ScrollView>
         {success && complaintID ? (
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContainer}>
-            <View style={styles.iconContainer}>
-                <Ionicons name="checkmark-done-circle-outline" size={60} color="#94098A" />
-              </View>
-            <Text style={styles.modalTitle}>{t("Thank you for your submission!")} </Text>
-            <Text style={styles.modalText}>{t("Your reference number is ")}{"\n"}
-            EDRAPPPLAE{complaintID}</Text>
-            <Text style={styles.modalText}>{t("Kindly keep it safe for future use.")}</Text>
-            <TouchableOpacity
-              style={styles.agreeButton}
-              onPress={() => {
-                setSuccess(false);
-                setRequest({
-                  title: "",
-                  description: "",
-                  incident_date: "",
-                });
-                setFile(null);
-                router.replace("/(user)/HomeScreen"); 
-              }}
-            >
-              <Text style={styles.agreeButtonText}>{t("okay")}</Text>
-              </TouchableOpacity>
-          </View>
-        </View>
+         <View style={styles.modalOverlay}>
+         <View style={styles.modalContainer}>
+           <View style={styles.iconContainer}>
+             <Ionicons name="checkmark-done-circle-outline" size={60} color="#94098A" />
+           </View>
+           <Text style={styles.modalTitle}>{t("Thank you for your submission!")}</Text>
+           <Text style={styles.modalText}>
+             {t("Your reference number is ")}{"\n"}
+             <Text style={styles.modalTexts}>EDRAPPPLAE{complaintID}</Text>
+           </Text>
+           <Text style={styles.modalText}>{t("Kindly keep it safe for future use.")}</Text>
+           <View style={styles.buttonContainer}>
+             <TouchableOpacity
+               style={styles.agreeButton}
+               onPress={() => {
+                 setSuccess(false);
+                 setRequest({
+                   title: "",
+                   description: "",
+                   incident_date: "",
+                 });
+                 setFile(null);
+                 router.replace("/(user)/HomeScreen");
+               }}
+             >
+               <Text style={styles.agreeButtonText}>{t("okay")}</Text>
+             </TouchableOpacity>
+           </View>
+         </View>
+       </View>
       ) : null}
     </>
   );
@@ -300,13 +304,7 @@ const styles = StyleSheet.create({
 
   },
   
-  title: {
-    fontSize: 22,
-    fontWeight: "bold",
-    color: "#800080",
-    textAlign: "center",
-    marginBottom: 10,
-  },
+  title: { fontSize: 18, color: '#94098A' },
   heading: {
     fontSize: 18,
     fontWeight: "bold",
@@ -365,35 +363,56 @@ const styles = StyleSheet.create({
     alignItems: "center",
     zIndex: 10,
   },
-
   modalContainer: {
     width: "85%",
     backgroundColor: "#FCE4FF",
     borderRadius: 20,
     padding: 20,
     alignItems: "center",
+    justifyContent: "center",
     elevation: 5,
+    textAlign: "center",  // Ensures text is centered within the container
   },
-
   iconContainer: {
     backgroundColor: "#fff",
     padding: 20,
     borderRadius: 50,
     marginBottom: 10,
   },
-
   modalTitle: {
     fontSize: 22,
     fontWeight: "bold",
     color: "#94098A",
     marginBottom: 10,
+    textAlign: "center",  // This will center the text
   },
-
   modalText: {
     fontSize: 16,
-    color: "#333",
+    color: '#94098A',
     textAlign: "center",
     marginBottom: 20,
+  },
+  modalTexts: {
+    fontSize: 18,
+    color: '#63075D',
+    textAlign: "center",
+    marginBottom: 20,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end', // Pushes the button to the right side
+    width: '100%',
+  },
+  agreeButton: {
+    backgroundColor: "#94098A",
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 20,
+  },
+  agreeButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
   },
   datePickerContainer: {
     flexDirection: "row",
