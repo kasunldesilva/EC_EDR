@@ -49,6 +49,8 @@ const ComplaintScreen = () => {
 
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedTime, setSelectedTime] = useState(new Date());
+  const [formDatas, setFormDatas] = useState({ district: "" });
+
   
   
   
@@ -422,16 +424,22 @@ const ComplaintScreen = () => {
                     data={sriLankaDistricts}
                     keyExtractor={(item) => String(item.value)}
                     labelExtractor={(item) => item.label}
-                    initValue={t("Select District")}
-                    onChange={(option) => setFormData({ ...formData, district: option.value })}
-                    style={styles.selector} 
-                    selectStyle={styles.selectStyle} 
-                    selectTextStyle={styles.selectTextStyle} 
-                    optionContainerStyle={styles.optionContainerStyle} 
-                    optionTextStyle={styles.optionTextStyle} 
-                    cancelStyle={styles.cancelStyle} 
-                    cancelTextStyle={styles.cancelTextStyle} 
+                    initValue={formData.district 
+                      ? sriLankaDistricts.find(d => d.value === formData.district)?.label 
+                      : t("Select District")
+                    }
+                    onChange={(option) => 
+                      setFormData(prevState => ({ ...prevState, district: option.value }))
+                    }
+                    style={styles.selector}
+                    selectStyle={styles.selectStyle}
+                    selectTextStyle={styles.selectTextStyle}
+                    optionContainerStyle={styles.optionContainerStyle}
+                    optionTextStyle={styles.optionTextStyle}
+                    cancelStyle={styles.cancelStyle}
+                    cancelTextStyle={styles.cancelTextStyle}
                   />
+
 
                 </View>
               </View>
@@ -717,38 +725,44 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   selector: {
-    backgroundColor: "white", 
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: "#CCC",
+    width: "100%",
+    paddingVertical: 10,
   },
   selectStyle: {
-    backgroundColor: "#E0E0E0", 
-    padding: 10,
-    borderRadius: 10,
     borderWidth: 1,
-    borderColor: "#B0B0B0",
+    borderColor: "#ccc",
+    padding: 10,
+    borderRadius: 5,
+    backgroundColor: "#f9f9f9",
   },
   selectTextStyle: {
-    color: "#000",
     fontSize: 16,
+    color: "#333",
     textAlign: "center",
   },
   optionContainerStyle: {
-    backgroundColor: "white", 
-    borderRadius: 10,
+   // Centers the dropdown
+      // Aligns text inside dropdown
+    backgroundColor: "#FCE4FF",    // Optional: Background color
+    borderRadius: 10,           // Optional: Rounded corners
+    padding: 10,
+    marginTop:20
   },
   optionTextStyle: {
-    color: "#000",
-    fontSize: 16,
-  },datePickerWrapper: {
-    position: "absolute",
-    left: 10,
-    right: 10,
-    zIndex: 0, 
-    backgroundColor:"white"// Ensure it's above other elements
+    textAlign: "center",        // Centers text
+    fontSize: 16,               // Adjust font size
+    color: "#333",              // Text color
   },
-  
+  cancelStyle: {
+    backgroundColor: "#94098A",
+    borderRadius: 5,
+    padding: 10,
+  },
+  cancelTextStyle: {
+    color: "white",
+    fontSize: 16,
+    textAlign: "center",
+  },
   
 });
 
